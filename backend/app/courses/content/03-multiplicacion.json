@@ -1,0 +1,312 @@
+{
+  "id": "MAT-MULT",
+  "motor": "generico",
+  "orden": 3,
+  "titulo": "Multiplicación",
+  "nivel": "2º y 3º de primaria",
+  "descripcion": "Multiplicar como sumar grupos iguales, y multiplicar números de dos cifras.",
+  "portada": {
+    "simbolo": "×",
+    "tono": "amarillo"
+  },
+  "prerrequisitos": [
+    "MAT-SUMA"
+  ],
+  "evaluacion": "Resolver multiplicaciones sin ayuda, explicar qué significa multiplicar (pregunta de comprobación) y resolver un problema en contexto (reto final).",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de las Fases 3 y 4 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: multiplicar «con apoyo de material concreto, sumas iteradas o arreglos rectangulares» y reconocer la multiplicación como la operación en la que «siempre se suma la misma cantidad». 3º grado: repertorio multiplicativo y multiplicaciones mediante «suma de multiplicaciones parciales».",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/4.pdf",
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "mult.tablas",
+      "tipo": "mult_tablas",
+      "nombre": "Multiplicar es sumar grupos iguales",
+      "objetivo": "Entender la multiplicación como suma repetida para poder reconstruir cualquier tabla.",
+      "explicacion": {
+        "titulo": "Grupos iguales",
+        "ideas": [
+          "3 × 4 significa 4 grupos de 3 (o 3 grupos de 4: da lo mismo).",
+          "Puedes contarlo de 3 en 3: 3, 6, 9, 12.",
+          "Por eso 3 × 4 = 12. Las tablas son atajos para no contar siempre."
+        ],
+        "por_que": "Si entiendes que es sumar grupos iguales, aunque olvides una tabla puedes reconstruirla."
+      },
+      "comprobacion": {
+        "pregunta": "¿Qué significa 5 × 3?",
+        "opciones": {
+          "grupos": "3 grupos de 5 (5 + 5 + 5)",
+          "suma": "5 + 3",
+          "pegar": "Poner el 5 junto al 3: 53"
+        },
+        "correcta": "grupos",
+        "retro": {
+          "suma": "5 + 3 junta solo dos números. 5 × 3 repite el 5 tres veces.",
+          "pegar": "53 es un número de dos cifras; multiplicar no es escribir los números juntos."
+        }
+      },
+      "otra_forma": "Imagina cajas con la misma cantidad de dulces en cada una. Multiplicar es contar todos los dulces sin abrir caja por caja: dulces por caja × número de cajas.",
+      "enunciado": "Resuelve: {a} × {b}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 24",
+      "pistas": [
+        {
+          "texto": "{a} × {b} es sumar {a} un total de {b} veces. Empieza con los primeros dos grupos.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{a} + {a} =",
+                "acepta": [
+                  "{a2}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Sigue contando de {a} en {a}: {a}, {a2}, …",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Qué número sigue después de {a2}?",
+                "acepta": [
+                  "{a3}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Sigue contando de {a} en {a} hasta completar {b} grupos. Usa tus dedos para no perder la cuenta: el último número que digas es tu resultado."
+        }
+      ],
+      "resolucion": "Contamos {b} grupos de {a}: {cuenta}. Resultado: {res}.",
+      "errores": {
+        "sumo": {
+          "retro": "Sumaste los dos números. Multiplicar es repetir: {a} × {b} es {a} sumado {b} veces.",
+          "docente": "Suma los factores en lugar de multiplicar (4 × 6 = 10)",
+          "accion": "Representar con arreglos rectangulares (filas y columnas) y contar los elementos."
+        },
+        "tabla_vecina": {
+          "retro": "Estás muy cerca: parece que contaste un grupo de más o de menos. Cuenta los grupos con calma.",
+          "docente": "Cuenta un grupo de más o de menos",
+          "accion": "Que comprueben contando los grupos con los dedos o con un arreglo rectangular."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca. Cuenta otra vez de {a} en {a} con calma.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Practicar el conteo de n en n y reconstruir tablas a partir de las que ya saben."
+        }
+      }
+    },
+    {
+      "id": "mult.una_cifra",
+      "tipo": "mult_una_cifra",
+      "nombre": "Multiplicar por una cifra",
+      "objetivo": "Multiplicar un número de dos cifras separándolo en decenas y unidades.",
+      "explicacion": {
+        "titulo": "Separar para multiplicar",
+        "ideas": [
+          "Para 23 × 4, separa el 23 en 20 + 3.",
+          "Multiplica cada parte: 20 × 4 = 80 y 3 × 4 = 12.",
+          "Suma las partes: 80 + 12 = 92."
+        ],
+        "por_que": "Separar en decenas y unidades convierte una multiplicación difícil en dos fáciles."
+      },
+      "comprobacion": {
+        "pregunta": "En 23 × 4, ¿qué se multiplica por 4?",
+        "opciones": {
+          "ambos": "El 20 y el 3, cada uno por separado",
+          "solo3": "Solo el 3; el 2 se queda igual",
+          "dos": "El 2 y el 3, como si los dos fueran unidades"
+        },
+        "correcta": "ambos",
+        "retro": {
+          "solo3": "El 20 también se repite 4 veces. Si no lo multiplicas, te faltan muchas.",
+          "dos": "El 2 de 23 vale 20, no 2. Si lo multiplicas como 2, te quedas corto."
+        }
+      },
+      "otra_forma": "Imagina 4 bolsas con 23 canicas cada una. En cada bolsa hay 2 tubos de 10 canicas y 3 canicas sueltas. Cuenta primero las canicas de todos los tubos y luego todas las sueltas.",
+      "enunciado": "Resuelve: {n} × {m}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 92",
+      "pistas": [
+        {
+          "texto": "Separa {n} en decenas y unidades: {d}0 + {u}. Empieza por las unidades.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{u} × {m} =",
+                "acepta": [
+                  "{um}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora las decenas: {d}0 × {m}. Truco: calcula {d} × {m} y agrégale un cero, porque son decenas.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{d}0 × {m} =",
+                "acepta": [
+                  "{dm0}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Suma las dos partes que obtuviste."
+        }
+      ],
+      "resolucion": "{n} = {d}0 + {u}. {u} × {m} = {um} y {d}0 × {m} = {dm0}. Sumamos: {dm0} + {um} = {res}.",
+      "errores": {
+        "olvido_decena": {
+          "retro": "Multiplicaste el {d} como si fuera unidades, pero en {n} vale {d}0.",
+          "docente": "Multiplica el dígito de las decenas sin su valor posicional (23 × 4 = 20)",
+          "accion": "Descomponer explícitamente (23 = 20 + 3) con material base 10 antes de multiplicar."
+        },
+        "solo_unidades": {
+          "retro": "Solo multiplicaste las unidades. Las decenas también se repiten {m} veces.",
+          "docente": "Multiplica solo las unidades (23 × 4 = 32)",
+          "accion": "Pedir que estimen antes: 23 × 4 debe estar cerca de 20 × 4 = 80."
+        },
+        "escribio_todo": {
+          "retro": "Escribiste los dos resultados pegados. Hay que sumarlos, porque uno son decenas y el otro unidades.",
+          "docente": "Pega los productos parciales en lugar de sumarlos (23 × 4 = 812)",
+          "accion": "Que escriban cada producto parcial en su propio renglón y los sumen alineados."
+        },
+        "sumo": {
+          "retro": "Sumaste los números. Multiplicar es repetir {n} un total de {m} veces.",
+          "docente": "Suma en lugar de multiplicar",
+          "accion": "Plantear problemas de «grupos iguales» y representarlos con dibujos."
+        },
+        "error_calculo": {
+          "retro": "Vas bien; parece un error de cuentas. Revisa cada parte y la suma final.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Practicar tablas y revisar con una estimación."
+        }
+      }
+    }
+  ],
+  "reto_final": {
+    "habilidad": "mult.una_cifra",
+    "historias": [
+      "Una caja trae {n} galletas. ¿Cuántas galletas hay en {m} cajas?",
+      "{n1} ahorra {n} pesos cada semana. ¿Cuánto habrá ahorrado en {m} semanas?",
+      "En un auditorio hay {m} filas con {n} butacas cada una. ¿Cuántas butacas hay en total?"
+    ]
+  },
+  "fundamentos": {
+    "titulo": "Qué es multiplicar y por qué funciona el procedimiento",
+    "intro": "Multiplicar es una forma corta de sumar. Si entiendes por qué, podrás reconstruir cualquier tabla.",
+    "tarjetas": [
+      {
+        "titulo": "Sumar lo mismo varias veces",
+        "texto": "4 + 4 + 4 = 12 se puede escribir con una multiplicación: 3 × 4 = 12, tres grupos de 4. Multiplicar sirve cuando siempre se suma la misma cantidad."
+      },
+      {
+        "titulo": "Filas y columnas",
+        "texto": "3 filas con 4 puntos cada una son 12 puntos. Si giras el dibujo, tienes 4 filas de 3: siguen siendo 12. Por eso 3 × 4 = 4 × 3. El orden de los factores no cambia el producto (propiedad conmutativa).",
+        "visual": {
+          "kind": "arreglo",
+          "filas": 3,
+          "columnas": 4,
+          "caption": "3 × 4 = 12 puntos"
+        }
+      },
+      {
+        "titulo": "Las tablas son atajos",
+        "texto": "Una tabla guarda resultados para no contar siempre. Si olvidas 7 × 6, puedes armarlo con lo que sí sabes: 5 × 6 = 30 y 2 × 6 = 12, y 30 + 12 = 42."
+      },
+      {
+        "titulo": "¿Por qué 20 × 4 = 80?",
+        "texto": "20 son 2 decenas. 2 decenas, 4 veces, son 8 decenas, o sea 80. Por eso al multiplicar decenas «se agrega un cero»: el cero indica que el resultado son decenas."
+      },
+      {
+        "titulo": "Multiplicar números grandes: separar",
+        "texto": "23 × 4 es (20 + 3) × 4. Las 4 veces se repiten las dos partes: 20 × 4 = 80 y 3 × 4 = 12. Juntas: 80 + 12 = 92. A esto se le llama propiedad distributiva, y es la razón de que el procedimiento de la multiplicación funcione.",
+        "visual": {
+          "kind": "columnas",
+          "encabezados": [
+            "D",
+            "U"
+          ],
+          "filas": [
+            {
+              "etiqueta": "3 × 4",
+              "celdas": [
+                "1",
+                "2"
+              ]
+            },
+            {
+              "etiqueta": "20 × 4",
+              "celdas": [
+                "8",
+                "0"
+              ]
+            },
+            {
+              "etiqueta": "",
+              "celdas": [
+                "9",
+                "2"
+              ],
+              "tipo": "resultado"
+            }
+          ],
+          "caption": "23 × 4 = 3 × 4 + 20 × 4"
+        }
+      }
+    ],
+    "pregunta": {
+      "pregunta": "¿Por qué 23 × 4 se puede calcular como 20 × 4 + 3 × 4?",
+      "opciones": {
+        "partes": "Porque 23 es 20 + 3, y cada parte se repite 4 veces",
+        "regla": "Porque así es la regla, no hay razón",
+        "cifras": "Porque se multiplica cada cifra: 2 × 4 y 3 × 4"
+      },
+      "correcta": "partes",
+      "retro": {
+        "regla": "Sí hay razón: 23 cosas repetidas 4 veces son 20 repetidas 4 veces más 3 repetidas 4 veces.",
+        "cifras": "El 2 de 23 vale 20, no 2. Si haces 2 × 4 te quedas muy corto: comprueba con 23 + 23 + 23 + 23."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 3 (1º y 2º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/4.pdf",
+        "cita": "2º grado: multiplicar «con apoyo de material concreto, sumas iteradas o arreglos rectangulares» y reconocer la multiplicación como la operación en la que «siempre se suma la misma cantidad».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 4 (3º y 4º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf",
+        "cita": "3º grado: multiplicaciones «mediante diversos procedimientos (suma de multiplicaciones parciales, multiplicaciones por 10, 20, 30…)».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 6 (secundaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/7.pdf",
+        "cita": "1º de secundaria: comprobar si las operaciones cumplen las propiedades «conmutativa, asociativa y distributiva».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.4 Multiply Whole Numbers.",
+        "url": "https://openstax.org/books/prealgebra-2e/pages/1-4-multiply-whole-numbers",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}

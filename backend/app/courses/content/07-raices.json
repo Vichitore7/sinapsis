@@ -1,0 +1,314 @@
+{
+  "id": "MAT-RAIZ",
+  "motor": "generico",
+  "orden": 7,
+  "titulo": "Potencias y raíces cuadradas",
+  "nivel": "2º de secundaria",
+  "descripcion": "Elevar al cuadrado, sacar raíces exactas y estimar las que no lo son.",
+  "portada": {
+    "simbolo": "√",
+    "tono": "morado"
+  },
+  "prerrequisitos": [
+    "MAT-MULT",
+    "MAT-DIV"
+  ],
+  "evaluacion": "Calcular cuadrados y raíces sin ayuda, explicar la relación entre ambos (pregunta de comprobación) y resolver un problema de áreas (reto final).",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de la Fase 6 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: «Calcula potencias con exponente entero y la raíz cuadrada». La estimación de raíces no exactas no aparece de forma explícita: es un apoyo propuesto por el equipo.",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/7.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "raiz.cuadrado",
+      "tipo": "cuadrado",
+      "nombre": "Elevar al cuadrado",
+      "objetivo": "Entender n² como n × n (el área de un cuadrado de lado n).",
+      "explicacion": {
+        "titulo": "Elevar al cuadrado",
+        "ideas": [
+          "5² se lee «cinco al cuadrado» y significa 5 × 5.",
+          "Se llama cuadrado porque es el área de un cuadrado de 5 por lado: 25 cuadritos.",
+          "Ojo: 5² no es 5 × 2. El 2 pequeño dice cuántas veces aparece el 5 en la multiplicación."
+        ],
+        "por_que": "Los cuadrados son la base para entender las raíces cuadradas."
+      },
+      "comprobacion": {
+        "pregunta": "¿Cuánto es 6²?",
+        "opciones": {
+          "36": "36, porque es 6 × 6",
+          "12": "12, porque es 6 × 2",
+          "8": "8, porque es 6 + 2"
+        },
+        "correcta": "36",
+        "retro": {
+          "12": "6 × 2 sería «el doble de 6». El cuadrado es 6 × 6: un cuadrado de 6 por lado.",
+          "8": "El 2 pequeño no se suma: indica que el 6 se multiplica por sí mismo."
+        }
+      },
+      "otra_forma": "Dibuja en papel cuadriculado un cuadrado con tantos cuadritos por lado como el número. Contar todos los cuadritos de adentro es elevar al cuadrado.",
+      "enunciado": "Calcula: {n}²",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 49",
+      "pistas": [
+        {
+          "texto": "El 2 pequeño indica cuántas veces aparece el número en la multiplicación.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{n}² es lo mismo que…",
+                "opciones": [
+                  "{n} × 2",
+                  "{n} × {n}"
+                ],
+                "acepta": [
+                  "{n} × {n}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora calcula {n} × {n}. Si te ayuda, cuenta de {n} en {n}, {n} veces."
+        }
+      ],
+      "resolucion": "{n}² = {n} × {n} = {res}.",
+      "errores": {
+        "por_dos": {
+          "retro": "Multiplicaste por 2. El cuadrado es el número multiplicado por sí mismo.",
+          "docente": "Calcula n² como n × 2 (5² = 10)",
+          "accion": "Dibujar el cuadrado en papel cuadriculado y contar los cuadritos."
+        },
+        "mas_dos": {
+          "retro": "Sumaste 2. El 2 pequeño no se suma: dice que el número se multiplica por sí mismo.",
+          "docente": "Calcula n² como n + 2 (5² = 7)",
+          "accion": "Dibujar el cuadrado en papel cuadriculado y contar los cuadritos."
+        },
+        "error_calculo": {
+          "retro": "Vas bien: es {n} × {n}. Revisa la multiplicación con calma.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Practicar las tablas hasta el 15 o descomponer (13 × 13 = 13 × 10 + 13 × 3)."
+        }
+      }
+    },
+    {
+      "id": "raiz.exacta",
+      "tipo": "raiz_exacta",
+      "nombre": "Raíz cuadrada exacta",
+      "objetivo": "Encontrar la raíz cuadrada como el número que multiplicado por sí mismo da el número dado.",
+      "explicacion": {
+        "titulo": "La raíz cuadrada",
+        "ideas": [
+          "La raíz cuadrada es la pregunta al revés: ¿qué número por sí mismo da 25?",
+          "Como 5 × 5 = 25, la raíz cuadrada de 25 es 5. Se escribe √25 = 5.",
+          "En dibujo: si un cuadrado tiene 25 cuadritos, la raíz es lo que mide cada lado."
+        ],
+        "por_que": "Sirve, por ejemplo, para saber cuánto mide el lado de un terreno cuadrado si conoces su área."
+      },
+      "comprobacion": {
+        "pregunta": "¿Cuánto es √36?",
+        "opciones": {
+          "6": "6, porque 6 × 6 = 36",
+          "18": "18, porque es la mitad de 36",
+          "72": "72, porque es 36 × 2"
+        },
+        "correcta": "6",
+        "retro": {
+          "18": "18 × 18 da mucho más que 36. La raíz no es la mitad: buscamos un número que por sí mismo dé 36.",
+          "72": "La raíz «deshace» el cuadrado, así que debe dar un número más chico que 36."
+        }
+      },
+      "otra_forma": "Imagina que tienes cierta cantidad de cuadritos y quieres acomodarlos en un cuadrado perfecto. La raíz cuadrada es cuántos cuadritos quedan en cada lado.",
+      "enunciado": "Calcula: √{s}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 7",
+      "pistas": [
+        {
+          "texto": "Busca un número que multiplicado por sí mismo dé {s}. Prueba con {p}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{p} × {p} =",
+                "acepta": [
+                  "{p2}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Compara lo que obtuviste con {s}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿{p2} es más o menos que {s}?",
+                "opciones": [
+                  "Más",
+                  "Menos"
+                ],
+                "acepta": [
+                  "{cmp}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Como {p} no funciona, prueba con números {dir} que {p} hasta que el resultado sea exactamente {s}."
+        }
+      ],
+      "resolucion": "Buscamos un número que por sí mismo dé {s}: {res} × {res} = {s}. Entonces √{s} = {res}.",
+      "errores": {
+        "mitad": {
+          "retro": "Dividiste entre 2. La raíz no es la mitad: comprueba multiplicando tu número por sí mismo.",
+          "docente": "Calcula la raíz como la mitad (√36 = 18)",
+          "accion": "Pedir que comprueben siempre: resultado × resultado = número original."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca: multiplica tu número por sí mismo y compara con {s}.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Tener a la mano la lista de cuadrados perfectos hasta 144."
+        }
+      }
+    },
+    {
+      "id": "raiz.estimar",
+      "tipo": "raiz_estimar",
+      "nombre": "Estimar raíces no exactas",
+      "objetivo": "Ubicar una raíz no exacta entre dos enteros consecutivos usando cuadrados perfectos.",
+      "explicacion": {
+        "titulo": "Raíces que no son exactas",
+        "ideas": [
+          "√40 no es exacta: ningún entero por sí mismo da 40.",
+          "Pero 6 × 6 = 36 y 7 × 7 = 49, y 40 está entre 36 y 49.",
+          "Así que √40 está entre 6 y 7."
+        ],
+        "por_que": "Estimar te dice si un resultado de calculadora tiene sentido."
+      },
+      "comprobacion": {
+        "pregunta": "√50 está entre…",
+        "opciones": {
+          "7y8": "7 y 8, porque 49 < 50 < 64",
+          "25y26": "25 y 26, porque la mitad de 50 es 25",
+          "5y6": "5 y 6, porque 50 termina en 0"
+        },
+        "correcta": "7y8",
+        "retro": {
+          "25y26": "25 × 25 = 625, muchísimo más que 50. La raíz no es la mitad.",
+          "5y6": "6 × 6 = 36 todavía no llega a 50. Revisa los cuadrados."
+        }
+      },
+      "otra_forma": "Escribe la lista de cuadrados: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144. Busca entre cuáles dos queda tu número: sus raíces son la respuesta.",
+      "enunciado": "¿Entre qué dos números enteros consecutivos está √{m}?",
+      "ayuda_respuesta": "Escribe los dos números, por ejemplo: 6 y 7",
+      "pistas": [
+        {
+          "texto": "Escribe los cuadrados en orden: 1, 4, 9, 16, 25, 36…",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Cuál es el primer cuadrado que pasa de {m}?",
+                "acepta": [
+                  "{k12}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "{m} queda entre ese cuadrado y el anterior. Las raíces de esos dos cuadrados son los números que buscas."
+        }
+      ],
+      "resolucion": "Alrededor de {m} están los cuadrados {k2} = {k} × {k} y {k12} = {k1} × {k1}. Como {k2} < {m} < {k12}, √{m} está entre {res}.",
+      "errores": {
+        "intervalo_vecino": {
+          "retro": "Te quedó un número de distancia. Eleva al cuadrado tus dos números y revisa que {m} quede en medio.",
+          "docente": "Elige el intervalo equivocado por un número",
+          "accion": "Escribir la lista de cuadrados perfectos y ubicar el número en ella."
+        },
+        "mitad": {
+          "retro": "Parece que partiste {m} a la mitad. La raíz no es la mitad: usa la lista de cuadrados.",
+          "docente": "Calcula la raíz como la mitad",
+          "accion": "Comprobar elevando al cuadrado los números propuestos."
+        },
+        "solo_un_numero": {
+          "retro": "Dame los dos números enteros entre los que queda la raíz, por ejemplo: 6 y 7.",
+          "docente": "Da un solo número en lugar de un intervalo",
+          "accion": "Aclarar que una raíz no exacta queda entre dos enteros."
+        }
+      }
+    }
+  ],
+  "reto_final": {
+    "habilidad": "raiz.exacta",
+    "historias": [
+      "Un jardín cuadrado tiene un área de {s} metros cuadrados. ¿Cuánto mide cada lado?",
+      "Con {s} mosaicos cuadrados se cubrió un piso cuadrado sin que sobrara ninguno. ¿Cuántos mosaicos hay en cada lado?",
+      "{n1} acomodó {s} sillas formando un cuadrado perfecto (mismas filas que columnas). ¿Cuántas sillas hay en cada fila?"
+    ]
+  },
+  "fundamentos": {
+    "titulo": "Qué son las potencias y las raíces cuadradas",
+    "intro": "Elevar al cuadrado y sacar raíz son operaciones inversas, como sumar y restar. Veamos por qué con dibujos de cuadrados.",
+    "tarjetas": [
+      {
+        "titulo": "Potencia: el mismo número varias veces",
+        "texto": "5² significa 5 × 5, y 2³ significa 2 × 2 × 2. El número de abajo es la base y el pequeño de arriba (exponente) dice cuántas veces aparece la base en la multiplicación."
+      },
+      {
+        "titulo": "¿Por qué se dice «al cuadrado»?",
+        "texto": "4² = 16 es la cantidad de cuadritos que tiene un cuadrado de 4 por lado. Por eso a elevar a la 2 se le dice elevar al cuadrado.",
+        "visual": {
+          "kind": "cuadricula",
+          "lado": 4,
+          "caption": "4 × 4 = 16 cuadritos"
+        }
+      },
+      {
+        "titulo": "La raíz cuadrada deshace el cuadrado",
+        "texto": "√16 pregunta: ¿qué número multiplicado por sí mismo da 16? Como 4 × 4 = 16, √16 = 4. En el dibujo: si un cuadrado tiene 16 cuadritos, la raíz es lo que mide cada lado."
+      },
+      {
+        "titulo": "Cuadrados perfectos",
+        "texto": "1, 4, 9, 16, 25, 36, 49, 64, 81, 100… tienen raíz exacta. Los demás números tienen raíces que no son enteras: √20 está entre 4 y 5, porque 16 < 20 < 25."
+      },
+      {
+        "titulo": "Así sabes que está bien",
+        "texto": "Si crees que √49 = 7, multiplica 7 × 7. Si da 49, está bien. Ojo: la raíz no es la mitad. √16 = 4, no 8, porque 8 × 8 = 64."
+      }
+    ],
+    "pregunta": {
+      "pregunta": "¿Por qué √25 = 5?",
+      "opciones": {
+        "cuadrado": "Porque 5 × 5 = 25",
+        "termina": "Porque 25 termina en 5",
+        "resta": "Porque 25 − 20 = 5"
+      },
+      "correcta": "cuadrado",
+      "retro": {
+        "termina": "La terminación no basta: √15 no es 5. Comprueba multiplicando el número por sí mismo.",
+        "resta": "Restar no deshace un cuadrado. La raíz pregunta qué número multiplicado por sí mismo da 25."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 6 (secundaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/7.pdf",
+        "cita": "2º de secundaria: «Calcula potencias con exponente entero y la raíz cuadrada».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección sobre raíces cuadradas (square roots).",
+        "url": "https://openstax.org/details/books/prealgebra-2e",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}

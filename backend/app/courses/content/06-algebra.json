@@ -1,0 +1,337 @@
+{
+  "id": "MAT-ALG",
+  "motor": "generico",
+  "orden": 6,
+  "titulo": "Álgebra inicial",
+  "nivel": "1º de secundaria",
+  "descripcion": "Usar letras en lugar de números y resolver ecuaciones como una balanza.",
+  "portada": {
+    "simbolo": "x",
+    "tono": "azul"
+  },
+  "prerrequisitos": [
+    "MAT-MULT",
+    "MAT-DIV"
+  ],
+  "evaluacion": "Evaluar expresiones y resolver ecuaciones sin ayuda, explicar por qué se hace lo mismo en los dos lados (pregunta de comprobación) y plantear una ecuación a partir de un problema (reto final).",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de la Fase 6 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 1º grado: «Interpreta y plantea diversas situaciones del lenguaje común al lenguaje algebraico» y «Resuelve ecuaciones de la forma Ax=B, Ax+B=C, Ax+B=Cx+D con el uso de las propiedades de la igualdad».",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/7.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "alg.sustituir",
+      "tipo": "alg_sustituir",
+      "nombre": "Letras en lugar de números",
+      "objetivo": "Entender que un número pegado a una letra se multiplica, y evaluar expresiones sustituyendo.",
+      "explicacion": {
+        "titulo": "Usar letras",
+        "ideas": [
+          "En álgebra, una letra guarda un número. En 3x, la x es un número que todavía no conocemos.",
+          "3x significa 3 × x. Si x = 4, entonces 3x = 3 × 4 = 12.",
+          "Para 3x + 5 con x = 4: primero 3 × 4 = 12, luego 12 + 5 = 17."
+        ],
+        "por_que": "Las letras permiten escribir reglas que sirven para cualquier número."
+      },
+      "comprobacion": {
+        "pregunta": "Si x = 2, ¿cuánto vale 5x?",
+        "opciones": {
+          "10": "10, porque 5x es 5 × 2",
+          "52": "52, porque pongo el 2 junto al 5",
+          "7": "7, porque es 5 + 2"
+        },
+        "correcta": "10",
+        "retro": {
+          "52": "Poner los números juntos no es una operación. Cuando un número está pegado a una letra, se multiplican.",
+          "7": "5x no es 5 + x: el número pegado a la letra se multiplica."
+        }
+      },
+      "otra_forma": "Piensa en la x como una caja que guarda un número. 3x son 3 cajas iguales: si cada caja tiene 4 canicas, en total hay 3 × 4 canicas.",
+      "enunciado": "Si x = {v}, ¿cuánto vale {a}x + {b}?",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 17",
+      "pistas": [
+        {
+          "texto": "{a}x significa {a} × x. Cambia la x por {v}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{a} × {v} =",
+                "acepta": [
+                  "{av}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora súmale {b} a lo que obtuviste."
+        }
+      ],
+      "resolucion": "Con x = {v}: {a} × {v} = {av}, y {av} + {b} = {res}.",
+      "errores": {
+        "concateno": {
+          "retro": "Pegaste el {a} y el {v} como si fueran un número de dos cifras. {a}x significa {a} × x.",
+          "docente": "Pega el coeficiente y el valor (3x con x = 4 → 34)",
+          "accion": "Al sustituir, que escriban el signo y un paréntesis: 3x → 3 × (4)."
+        },
+        "sumo_coef": {
+          "retro": "Sumaste el {a} y la x. Cuando un número está pegado a la letra, se multiplican.",
+          "docente": "Suma el coeficiente en lugar de multiplicar (3x con x = 4 → 7)",
+          "accion": "Usar el modelo de cajas: 3x son 3 cajas iguales."
+        },
+        "falto_b": {
+          "retro": "¡Bien la multiplicación! Te faltó sumar el {b}.",
+          "docente": "Olvida un término al evaluar la expresión",
+          "accion": "Que subrayen cada término antes de calcular."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca. Revisa la multiplicación y la suma.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Revisar cuentas paso a paso, un renglón por operación."
+        }
+      }
+    },
+    {
+      "id": "alg.ec_suma",
+      "tipo": "alg_ec_suma",
+      "nombre": "Ecuaciones de un paso",
+      "objetivo": "Resolver x + a = b haciendo la misma operación en los dos lados.",
+      "explicacion": {
+        "titulo": "La balanza",
+        "ideas": [
+          "Una ecuación es como una balanza en equilibrio: x + 5 = 12.",
+          "Para dejar la x sola, quita 5 de los dos lados: la balanza sigue equilibrada.",
+          "x = 12 − 5 = 7. Compruébalo: 7 + 5 = 12. ✓"
+        ],
+        "por_que": "Lo que haces de un lado lo haces del otro: así la igualdad no se rompe."
+      },
+      "comprobacion": {
+        "pregunta": "En x + 8 = 15, ¿qué haces para dejar sola la x?",
+        "opciones": {
+          "restar": "Quito 8 de los dos lados",
+          "sumar": "Sumo 8 a los dos lados",
+          "uno": "Quito 8 solo del lado de la x"
+        },
+        "correcta": "restar",
+        "retro": {
+          "sumar": "Si sumas 8, del lado de la x quedaría x + 16: la x queda menos sola.",
+          "uno": "Si quitas solo de un lado, la balanza se desequilibra. Lo que haces de un lado, hazlo del otro."
+        }
+      },
+      "otra_forma": "Imagina una balanza: de un lado hay una caja con canicas (la x) y 5 canicas sueltas; del otro, 12 canicas. Si quitas las 5 sueltas de un lado, quita 5 del otro también: lo que queda pesa lo mismo que la caja.",
+      "enunciado": "Resuelve: x + {a} = {b}",
+      "ayuda_respuesta": "Escribe el valor de x, por ejemplo: x = 7",
+      "pistas": [
+        {
+          "texto": "Para dejar la x sola, hay que quitar lo que se le está sumando.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Qué número quitas de los dos lados?",
+                "acepta": [
+                  "{a}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Quita {a} de los dos lados: del lado derecho queda {b} − {a}."
+        }
+      ],
+      "resolucion": "x + {a} = {b}. Quitamos {a} de los dos lados: x = {b} − {a} = {res}. Comprobación: {res} + {a} = {b}.",
+      "errores": {
+        "sumo": {
+          "retro": "Sumaste {a} en lugar de quitarlo. Para deshacer una suma, se resta.",
+          "docente": "Suma en lugar de restar al despejar (x + 5 = 12 → x = 17)",
+          "accion": "Modelar con una balanza (o vasos y fichas) y comprobar sustituyendo el resultado."
+        },
+        "error_calculo": {
+          "retro": "Vas bien. Comprueba: tu resultado + {a} debe dar {b}.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Comprobar siempre sustituyendo el resultado en la ecuación."
+        }
+      }
+    },
+    {
+      "id": "alg.ec_dos_pasos",
+      "tipo": "alg_ec_dos_pasos",
+      "nombre": "Ecuaciones de dos pasos",
+      "objetivo": "Resolver ax + b = c deshaciendo las operaciones en orden inverso.",
+      "explicacion": {
+        "titulo": "Dos pasos, en orden",
+        "ideas": [
+          "En 3x + 4 = 19 hay dos cosas pegadas a la x: el × 3 y el + 4.",
+          "Primero quita el 4 de los dos lados: 3x = 15.",
+          "Luego divide entre 3 los dos lados: x = 5. Comprueba: 3 × 5 + 4 = 19. ✓"
+        ],
+        "por_que": "Se deshace en orden inverso: lo último que se le hizo a la x (sumar 4) es lo primero que se quita."
+      },
+      "comprobacion": {
+        "pregunta": "En 2x + 6 = 14, ¿qué conviene hacer primero?",
+        "opciones": {
+          "restar": "Quitar 6 de los dos lados",
+          "dividir": "Dividir 14 entre 2 y listo",
+          "sumar": "Sumar el 2 y el 6"
+        },
+        "correcta": "restar",
+        "retro": {
+          "dividir": "Si solo divides el 14, el 6 queda sin repartir. Primero quita el 6 de los dos lados.",
+          "sumar": "El 2 multiplica a la x, no se suma con el 6. Deshaz primero la suma."
+        }
+      },
+      "otra_forma": "Piensa en 3 cajas iguales con canicas más 4 canicas sueltas, que pesan lo mismo que 19 canicas. Quita las 4 sueltas de los dos lados; luego reparte lo que queda entre las 3 cajas.",
+      "enunciado": "Resuelve: {a}x + {b} = {c}",
+      "ayuda_respuesta": "Escribe el valor de x, por ejemplo: x = 5",
+      "pistas": [
+        {
+          "texto": "Primero quita el {b} de los dos lados.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{c} − {b} =",
+                "acepta": [
+                  "{cb}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora tienes {a}x = {cb}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Qué operación deja sola a la x?",
+                "opciones": [
+                  "Dividir entre {a}",
+                  "Restar {a}",
+                  "Multiplicar por {a}"
+                ],
+                "acepta": [
+                  "Dividir entre {a}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Divide {cb} entre {a} para encontrar x."
+        }
+      ],
+      "resolucion": "{a}x + {b} = {c}. Quitamos {b}: {a}x = {cb}. Dividimos entre {a}: x = {res}. Comprobación: {a} × {res} + {b} = {c}.",
+      "errores": {
+        "solo_divide": {
+          "retro": "Dividiste sin quitar primero el {b}. Deshaz primero la suma y luego la multiplicación.",
+          "docente": "Divide antes de restar el término independiente",
+          "accion": "Usar el modelo de cajas y canicas para ver el orden de los pasos."
+        },
+        "suma_b": {
+          "retro": "Sumaste el {b} en lugar de quitarlo. Para deshacer «+ {b}» se resta {b}.",
+          "docente": "Suma el término independiente en lugar de restarlo",
+          "accion": "Comprobar sustituyendo el resultado en la ecuación original."
+        },
+        "resto_a": {
+          "retro": "Restaste el {a}, pero el {a} multiplica a la x: para deshacerlo hay que dividir.",
+          "docente": "Resta el coeficiente en lugar de dividir (3x = 15 → x = 12)",
+          "accion": "Recordar que 3x son 3 cajas iguales: lo que queda se reparte entre 3."
+        },
+        "falto_dividir": {
+          "retro": "¡Bien quitaste el {b}! Pero todavía tienes {a}x, no x. Falta un paso.",
+          "docente": "Se detiene antes de dividir entre el coeficiente",
+          "accion": "Pedir que escriban cada paso de la ecuación en un renglón nuevo hasta que quede «x = …»."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca. Comprueba: {a} × (tu resultado) + {b} debe dar {c}.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Comprobar siempre sustituyendo el resultado en la ecuación."
+        }
+      }
+    }
+  ],
+  "reto_final": {
+    "habilidad": "alg.ec_dos_pasos",
+    "historias": [
+      "{n1} compró {a} cuadernos iguales y una pluma de {b} pesos. Pagó {c} pesos en total. ¿Cuánto costó cada cuaderno?",
+      "Un taxi cobra {b} pesos al subir y {a} pesos por kilómetro. Un viaje costó {c} pesos. ¿Cuántos kilómetros recorrió?",
+      "{n1} tenía {b} estampas y compró {a} sobres con la misma cantidad cada uno. Ahora tiene {c}. ¿Cuántas estampas traía cada sobre?"
+    ]
+  },
+  "fundamentos": {
+    "titulo": "Qué es el álgebra y por qué funciona despejar",
+    "intro": "El álgebra usa letras para hablar de números que no conocemos. Veamos por qué podemos resolver una ecuación con seguridad.",
+    "tarjetas": [
+      {
+        "titulo": "Una letra guarda un número",
+        "texto": "En álgebra, una letra (por ejemplo x) representa un número que todavía no conocemos o que puede cambiar. Se llama variable."
+      },
+      {
+        "titulo": "Reglas para cualquier número",
+        "texto": "Si un cuaderno cuesta 15 pesos, n cuadernos cuestan 15 × n pesos. Esa regla sirve igual para 2, 10 o 100 cuadernos: por eso las letras son útiles."
+      },
+      {
+        "titulo": "Número pegado a una letra: multiplicación",
+        "texto": "3x significa 3 × x. Si x = 4, entonces 3x = 3 × 4 = 12, no 34. Pegar los números no es una operación."
+      },
+      {
+        "titulo": "Una ecuación es una igualdad",
+        "texto": "x + 5 = 12 dice que los dos lados valen lo mismo, como una balanza en equilibrio. Resolverla es encontrar el número que hace que eso sea cierto.",
+        "visual": {
+          "kind": "balanza",
+          "izquierda": "x + 5",
+          "derecha": "12",
+          "caption": "Los dos lados pesan lo mismo."
+        }
+      },
+      {
+        "titulo": "Por qué se hace lo mismo en los dos lados",
+        "texto": "Si a una balanza en equilibrio le quitas 5 de un lado, tienes que quitar 5 del otro para que siga equilibrada. x + 5 − 5 = 12 − 5, así que x = 7. A esto se le llama usar las propiedades de la igualdad.",
+        "visual": {
+          "kind": "balanza",
+          "izquierda": "x",
+          "derecha": "7",
+          "caption": "Quitamos 5 de cada lado."
+        }
+      },
+      {
+        "titulo": "Así sabes que está bien",
+        "texto": "Cambia la x por tu resultado: 7 + 5 = 12. Si la igualdad se cumple, tu respuesta es correcta. No necesitas que nadie te lo diga."
+      }
+    ],
+    "pregunta": {
+      "pregunta": "En x + 5 = 12, ¿por qué se quita 5 de los dos lados?",
+      "opciones": {
+        "igualdad": "Para que la igualdad se siga cumpliendo, como una balanza",
+        "estorba": "Porque el 5 estorba y se puede borrar",
+        "chico": "Para que el resultado salga más chico"
+      },
+      "correcta": "igualdad",
+      "retro": {
+        "estorba": "No se borra: se quita de los DOS lados. Si solo lo quitas de un lado, la balanza se desequilibra.",
+        "chico": "El objetivo no es que salga chico, sino dejar la x sola sin romper la igualdad."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 6 (secundaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/7.pdf",
+        "cita": "1º de secundaria: pasar «del lenguaje común al lenguaje algebraico y viceversa» y resolver «ecuaciones de la forma Ax=B, Ax+B=C, Ax+B=Cx+D con el uso de las propiedades de la igualdad».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, capítulos sobre lenguaje algebraico y resolución de ecuaciones.",
+        "url": "https://openstax.org/details/books/prealgebra-2e",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}

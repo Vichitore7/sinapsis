@@ -1,0 +1,188 @@
+{
+  "id": "MAT-FRAC",
+  "motor": "fracciones",
+  "orden": 5,
+  "titulo": "Fracciones",
+  "nivel": "4º a 6º de primaria",
+  "descripcion": "Fracciones equivalentes y suma con igual y distinto denominador, con barras para ver cada idea.",
+  "portada": {
+    "simbolo": "½",
+    "tono": "naranja"
+  },
+  "prerrequisitos": [
+    "MAT-MULT",
+    "MAT-DIV"
+  ],
+  "evaluacion": "Resolver sin pistas, responder la pregunta de comprobación, estimar antes de calcular y resolver un problema verbal nuevo (reto final). Criterio de dominio provisional en lesson.py.",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de las Fases 4 y 5 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 4º grado: sumas o restas de fracciones con diferente denominador «mediante diversos procedimientos, en particular, la equivalencia». 5º grado: fracciones equivalentes «al multiplicar o dividir al numerador y al denominador por un mismo número» y sumas con diferentes denominadores; 6º grado: continúa.",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf",
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/6.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "nota": "Los textos de este curso viven en backend/app/lesson.py y las pistas en fractions_engine.py.",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "equivalencia",
+      "objetivo": "Comprender que fracciones distintas pueden representar la misma cantidad."
+    },
+    {
+      "id": "suma_mismo_den",
+      "objetivo": "Sumar fracciones con el mismo denominador entendiendo que el denominador es el tamaño del pedazo."
+    },
+    {
+      "id": "suma_distinto_den",
+      "objetivo": "Sumar fracciones con distinto denominador convirtiéndolas a un denominador común."
+    }
+  ],
+  "fundamentos": {
+    "titulo": "Qué es una fracción y por qué se suma así",
+    "intro": "Una fracción es una forma de nombrar partes de algo. Si entiendes qué significan sus dos números, sumar fracciones tiene sentido.",
+    "tarjetas": [
+      {
+        "titulo": "Partes de un entero",
+        "texto": "Una fracción nombra partes de algo que se partió en partes IGUALES. En 3/4, el 4 (denominador) dice en cuántas partes iguales se partió el entero, y el 3 (numerador) dice cuántas de esas partes tomamos.",
+        "visual": {
+          "kind": "barras",
+          "caption": "3/4: el entero partido en 4 partes iguales; tomamos 3.",
+          "bars": [
+            {
+              "num": 3,
+              "den": 4,
+              "label": "3/4",
+              "tone": "a",
+              "group": 1
+            }
+          ]
+        }
+      },
+      {
+        "titulo": "Las partes deben ser iguales",
+        "texto": "Si partes una pizza en 4 pedazos de distinto tamaño, ninguno de esos pedazos es «un cuarto». Una fracción solo tiene sentido cuando todas las partes miden lo mismo."
+      },
+      {
+        "titulo": "Más partes, partes más chicas",
+        "texto": "1/8 es más chico que 1/4, aunque el 8 sea mayor que el 4: si partes el mismo entero en más pedazos, cada pedazo queda más pequeño.",
+        "visual": {
+          "kind": "barras",
+          "caption": "El mismo entero: en 4 partes y en 8 partes.",
+          "bars": [
+            {
+              "num": 1,
+              "den": 4,
+              "label": "1/4",
+              "tone": "a",
+              "group": 1
+            },
+            {
+              "num": 1,
+              "den": 8,
+              "label": "1/8",
+              "tone": "b",
+              "group": 1
+            }
+          ]
+        }
+      },
+      {
+        "titulo": "Fracciones equivalentes",
+        "texto": "1/2 = 2/4 = 4/8: es la misma cantidad partida en más pedazos. Se obtienen multiplicando (o dividiendo) el numerador y el denominador por el mismo número. Si haces algo distinto arriba y abajo, cambias la cantidad.",
+        "visual": {
+          "kind": "barras",
+          "caption": "Media barra, en 2 y en 4 pedazos: misma cantidad.",
+          "bars": [
+            {
+              "num": 1,
+              "den": 2,
+              "label": "1/2",
+              "tone": "a",
+              "group": 1
+            },
+            {
+              "num": 2,
+              "den": 4,
+              "label": "2/4",
+              "tone": "b",
+              "group": 2
+            }
+          ]
+        }
+      },
+      {
+        "titulo": "Sumar: pedazos del mismo tamaño",
+        "texto": "1/5 + 2/5 = 3/5: son pedazos del mismo tamaño (quintos), así que solo se cuentan. El denominador no se suma porque no cambia el tamaño del pedazo. Si los tamaños son distintos, primero se cambian por fracciones equivalentes con el mismo denominador.",
+        "visual": {
+          "kind": "barras",
+          "caption": "1 quinto + 2 quintos = 3 quintos.",
+          "bars": [
+            {
+              "num": 1,
+              "den": 5,
+              "label": "1/5",
+              "tone": "a",
+              "group": 1
+            },
+            {
+              "num": 2,
+              "den": 5,
+              "label": "2/5",
+              "tone": "b",
+              "group": 1
+            },
+            {
+              "num": 3,
+              "den": 5,
+              "label": "Juntos: 3/5",
+              "tone": "ok",
+              "group": 1
+            }
+          ]
+        }
+      },
+      {
+        "titulo": "Así sabes que está bien",
+        "texto": "Al juntar dos cantidades, el total debe ser mayor que cada una. Por eso 1/2 + 1/3 no puede ser 2/5: 2/5 es menos que 1/2. Estimar antes de calcular te avisa si algo salió mal."
+      }
+    ],
+    "pregunta": {
+      "pregunta": "¿Por qué 1/2 = 2/4?",
+      "opciones": {
+        "misma": "Porque es la misma cantidad, partida en el doble de pedazos",
+        "mayor": "Porque 2/4 tiene números más grandes, así que vale más",
+        "suma": "Porque le sumé 1 arriba y 2 abajo"
+      },
+      "correcta": "misma",
+      "retro": {
+        "mayor": "Los números son más grandes, pero los pedazos son más chicos. Mira las barras: ocupan lo mismo.",
+        "suma": "Sumar no es la regla: de 1/2 a 2/4 se multiplicó por 2 arriba y abajo. Si sumas, la cantidad cambia."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 4 (3º y 4º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf",
+        "cita": "4º grado: sumas o restas de fracciones con diferente denominador «mediante diversos procedimientos, en particular, la equivalencia».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 5 (5º y 6º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/6.pdf",
+        "cita": "5º grado: construir «fracciones equivalentes al multiplicar o dividir al numerador y al denominador por un mismo número».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, capítulo de fracciones (Fractions).",
+        "url": "https://openstax.org/details/books/prealgebra-2e",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}

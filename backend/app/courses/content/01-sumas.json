@@ -1,0 +1,348 @@
+{
+  "id": "MAT-SUMA",
+  "motor": "generico",
+  "orden": 1,
+  "titulo": "Sumas",
+  "nivel": "1º y 2º de primaria",
+  "descripcion": "Sumar por columnas y entender qué significa «llevar».",
+  "portada": {
+    "simbolo": "+",
+    "tono": "naranja"
+  },
+  "prerrequisitos": [],
+  "evaluacion": "Resolver sumas sin ayuda, responder la pregunta de comprobación de cada idea y resolver un problema en contexto (reto final).",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de la Fase 3 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: «Resuelve situaciones problemáticas vinculadas a su contexto que implican sumas utilizando agrupamientos y el algoritmo convencional con números de hasta dos cifras».",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/4.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "suma.basica",
+      "tipo": "suma_basica",
+      "nombre": "Suma sin llevar",
+      "objetivo": "Sumar números de dos cifras por columnas: unidades con unidades y decenas con decenas.",
+      "explicacion": {
+        "titulo": "Sumar por columnas",
+        "ideas": [
+          "Un número como 34 son 3 decenas y 4 unidades.",
+          "Para sumar, juntas unidades con unidades y decenas con decenas.",
+          "34 + 25: 4 + 5 = 9 unidades y 3 + 2 = 5 decenas → 59."
+        ],
+        "por_que": "Decenas y unidades son cosas distintas, como billetes de 10 y monedas de 1: cada una se cuenta por su lado."
+      },
+      "comprobacion": {
+        "pregunta": "En 34 + 25, ¿con qué número se suma el 4?",
+        "opciones": {
+          "unidades": "Con el 5, porque los dos son unidades",
+          "decenas": "Con el 2, porque es el primer número de 25",
+          "todos": "Con todos: 3 + 4 + 2 + 5"
+        },
+        "correcta": "unidades",
+        "retro": {
+          "decenas": "El 2 de 25 son 2 decenas (20). El 4 son unidades. ¿Juntarías billetes de 10 con monedas de 1 como si fueran lo mismo?",
+          "todos": "Si sumas todos los dígitos, mezclas decenas con unidades. Separa: unidades con unidades."
+        }
+      },
+      "otra_forma": "Piensa en dinero: 34 pesos son 3 billetes de 10 y 4 monedas de 1. Junta primero las monedas, luego los billetes, y al final cuenta todo.",
+      "enunciado": "Resuelve: {a} + {b}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 57",
+      "pistas": [
+        {
+          "texto": "Empieza por las unidades (el último dígito de cada número): {u1} y {u2}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{u1} + {u2} =",
+                "acepta": [
+                  "{us}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora las decenas (el primer dígito de cada número): {d1} y {d2}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{d1} + {d2} =",
+                "acepta": [
+                  "{ds}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ya tienes las dos columnas. Escribe primero las decenas y luego las unidades para formar tu resultado."
+        }
+      ],
+      "resolucion": "Unidades: {u1} + {u2} = {us}. Decenas: {d1} + {d2} = {ds}. Juntamos {ds} decenas y {us} unidades: {res}.",
+      "errores": {
+        "sumo_todos": {
+          "retro": "Sumaste todos los dígitos juntos. Pero cada decena vale 10: súmalas aparte de las unidades.",
+          "docente": "Suma todos los dígitos sin respetar el valor posicional (34 + 25 = 14)",
+          "accion": "Usa material base 10 (o billetes de 10 y monedas de 1) para que vean que una decena no vale lo mismo que una unidad."
+        },
+        "error_calculo": {
+          "retro": "Vas bien; parece un error de cuentas en una columna. Revísalas una por una.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Practicar las sumas básicas y revisar columna por columna."
+        }
+      }
+    },
+    {
+      "id": "suma.llevando",
+      "tipo": "suma_llevando",
+      "nombre": "Suma llevando",
+      "objetivo": "Comprender que «llevar» es cambiar 10 unidades por 1 decena.",
+      "explicacion": {
+        "titulo": "Sumar llevando",
+        "ideas": [
+          "Si las unidades suman 10 o más, ya formaste una decena nueva.",
+          "Ejemplo: 47 + 38. Unidades: 7 + 8 = 15, o sea 1 decena y 5 unidades.",
+          "Escribes el 5 y «llevas» la decena: 4 + 3 + 1 = 8 decenas → 85."
+        ],
+        "por_que": "«Llevar» no es un truco: es cambiar 10 monedas de 1 peso por un billete de 10."
+      },
+      "comprobacion": {
+        "pregunta": "En 47 + 38, las unidades suman 15. ¿Qué haces con ese 15?",
+        "opciones": {
+          "decena": "Escribo 5 y llevo 1 decena a la columna de las decenas",
+          "todo": "Escribo el 15 completo en las unidades",
+          "olvido": "Escribo 5 y ya, el 1 no importa"
+        },
+        "correcta": "decena",
+        "retro": {
+          "todo": "En la columna de las unidades solo cabe un dígito. 15 unidades son 1 decena y 5 unidades: ¿a dónde va esa decena?",
+          "olvido": "Ese 1 es una decena completa (10). Si lo tiras, tu resultado queda 10 abajo."
+        }
+      },
+      "otra_forma": "Piensa en monedas: si juntas 15 monedas de 1 peso, puedes cambiar 10 por un billete de 10. Te quedan 5 monedas y un billete más, que se suma con los otros billetes.",
+      "enunciado": "Resuelve: {a} + {b}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 85",
+      "pistas": [
+        {
+          "texto": "Empieza por las unidades: {u1} y {u2}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{u1} + {u2} =",
+                "acepta": [
+                  "{us}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "{us} es más que 9: son 1 decena y algunas unidades. Las unidades se escriben abajo y la decena se lleva a su columna.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Cuántas unidades escribes abajo?",
+                "acepta": [
+                  "{ur}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ahora las decenas, sin olvidar la que llevas: {d1} + {d2} + 1.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{d1} + {d2} + 1 =",
+                "acepta": [
+                  "{ds}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Junta las decenas que obtuviste con las unidades que escribiste abajo."
+        }
+      ],
+      "resolucion": "Unidades: {u1} + {u2} = {us} → escribo {ur} y llevo 1. Decenas: {d1} + {d2} + 1 = {ds}. Resultado: {res}.",
+      "errores": {
+        "no_llevo": {
+          "retro": "Olvidaste la decena que se «lleva»: cuando las unidades pasan de 9, se forma una decena nueva que va a su columna.",
+          "docente": "Olvida llevar la decena (47 + 38 = 75)",
+          "accion": "Con material base 10, que cambien 10 unidades por una barra de decena antes de juntar las decenas."
+        },
+        "escribio_todo": {
+          "retro": "Escribiste la suma de cada columna completa. En cada columna solo va un dígito: lo demás se lleva.",
+          "docente": "Escribe la suma de cada columna completa (47 + 38 = 715)",
+          "accion": "Pide que estimen antes de sumar: ¿47 + 38 puede dar 715? Luego que lo resuelvan con material concreto."
+        },
+        "error_calculo": {
+          "retro": "Vas bien; parece un error de cuentas. Revisa cada columna y la decena que llevas.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Practicar las sumas básicas y revisar columna por columna."
+        }
+      }
+    }
+  ],
+  "reto_final": {
+    "habilidad": "suma.llevando",
+    "historias": [
+      "En la biblioteca hay {a} libros de cuentos y {b} libros de ciencia. ¿Cuántos libros hay en total?",
+      "{n1} juntó {a} tapitas y {n2} juntó {b}. ¿Cuántas tapitas juntaron entre los dos?",
+      "Un camión lleva {a} cajas y otro camión lleva {b}. ¿Cuántas cajas llevan entre los dos?"
+    ]
+  },
+  "fundamentos": {
+    "titulo": "Qué es un número y por qué sumamos así",
+    "intro": "Antes de sumar, entendamos cómo están hechos los números. Así sabrás por qué el procedimiento funciona.",
+    "tarjetas": [
+      {
+        "titulo": "Los números dicen cuántos hay",
+        "texto": "Un número dice cuántas cosas hay. Con solo diez cifras (0, 1, 2, 3, 4, 5, 6, 7, 8 y 9) podemos escribir cualquier cantidad, por grande que sea."
+      },
+      {
+        "titulo": "Hacemos grupos de 10",
+        "texto": "Cuando juntas 10 unidades, formas 1 decena. Cuando juntas 10 decenas, formas 1 centena. Y 10 centenas forman 1 millar. Por eso nuestro sistema se llama decimal: todo se agrupa de 10 en 10.",
+        "visual": {
+          "kind": "base10",
+          "numero": 111,
+          "caption": "1 centena = 10 decenas = 100 unidades. Aquí: 1 centena, 1 decena y 1 unidad."
+        }
+      },
+      {
+        "titulo": "El lugar de cada cifra importa",
+        "texto": "En 347, el 3 vale 300 (3 centenas), el 4 vale 40 (4 decenas) y el 7 vale 7 (7 unidades). La misma cifra vale distinto según su lugar: el 3 de 347 vale 300, pero el 3 de 13 vale solo 3. Esto se llama valor posicional.",
+        "visual": {
+          "kind": "base10",
+          "numero": 347,
+          "caption": "347 = 300 + 40 + 7"
+        }
+      },
+      {
+        "titulo": "Sumar es juntar",
+        "texto": "Sumar es juntar dos o más cantidades en una sola. El resultado se llama suma o total. El orden no cambia el total: 3 + 5 = 5 + 3."
+      },
+      {
+        "titulo": "¿Por qué sumamos por columnas?",
+        "texto": "Porque solo se pueden contar juntas las cosas del mismo tipo: unidades con unidades y decenas con decenas. 34 + 25 es (30 + 4) + (20 + 5). Juntamos las decenas: 30 + 20 = 50. Juntamos las unidades: 4 + 5 = 9. Total: 59.",
+        "visual": {
+          "kind": "columnas",
+          "encabezados": [
+            "D",
+            "U"
+          ],
+          "filas": [
+            {
+              "etiqueta": "",
+              "celdas": [
+                "3",
+                "4"
+              ]
+            },
+            {
+              "etiqueta": "+",
+              "celdas": [
+                "2",
+                "5"
+              ]
+            },
+            {
+              "etiqueta": "",
+              "celdas": [
+                "5",
+                "9"
+              ],
+              "tipo": "resultado"
+            }
+          ],
+          "caption": "Decenas con decenas, unidades con unidades."
+        }
+      },
+      {
+        "titulo": "¿Por qué «llevamos»?",
+        "texto": "En 47 + 38, las unidades suman 7 + 8 = 15. Eso ya es un grupo de 10 y 5 sueltas. El grupo de 10 se cambia por 1 decena y se pasa a su columna: eso es «llevar». No es un truco: es el mismo canje de 10 unidades por 1 decena.",
+        "visual": {
+          "kind": "columnas",
+          "encabezados": [
+            "D",
+            "U"
+          ],
+          "filas": [
+            {
+              "etiqueta": "llevo",
+              "celdas": [
+                "1",
+                ""
+              ],
+              "tipo": "lleva"
+            },
+            {
+              "etiqueta": "",
+              "celdas": [
+                "4",
+                "7"
+              ]
+            },
+            {
+              "etiqueta": "+",
+              "celdas": [
+                "3",
+                "8"
+              ]
+            },
+            {
+              "etiqueta": "",
+              "celdas": [
+                "8",
+                "5"
+              ],
+              "tipo": "resultado"
+            }
+          ],
+          "caption": "15 unidades = 1 decena y 5 unidades."
+        }
+      }
+    ],
+    "pregunta": {
+      "pregunta": "En 47 + 38, ¿por qué se «lleva» 1 a la columna de las decenas?",
+      "opciones": {
+        "canje": "Porque 7 + 8 = 15, y 10 de esas unidades forman 1 decena",
+        "siempre": "Porque en las sumas siempre se lleva 1",
+        "grande": "Porque el 8 es un número grande"
+      },
+      "correcta": "canje",
+      "retro": {
+        "siempre": "No siempre: en 34 + 25 no se lleva nada, porque 4 + 5 = 9 no llega a 10. Solo se lleva cuando se junta un grupo de 10.",
+        "grande": "No depende de que un número sea grande, sino de si las unidades juntas llegan a 10."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 3 (1º y 2º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/4.pdf",
+        "cita": "2º grado: «identifica regularidades en los números que representan unidades, decenas y centenas» y «resuelve situaciones problemáticas […] que implican sumas utilizando agrupamientos y el algoritmo convencional con números de hasta dos cifras».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.1 Introduction to Whole Numbers (valor posicional).",
+        "url": "https://openstax.org/books/prealgebra-2e/pages/1-1-introduction-to-whole-numbers",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.2 Add Whole Numbers.",
+        "url": "https://openstax.org/books/prealgebra-2e/pages/1-2-add-whole-numbers",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}

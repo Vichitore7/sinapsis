@@ -1,0 +1,276 @@
+{
+  "id": "MAT-DIV",
+  "motor": "generico",
+  "orden": 4,
+  "titulo": "División",
+  "nivel": "3º y 4º de primaria",
+  "descripcion": "Dividir como repartir en partes iguales, y entender el residuo.",
+  "portada": {
+    "simbolo": "÷",
+    "tono": "rosa"
+  },
+  "prerrequisitos": [
+    "MAT-MULT"
+  ],
+  "evaluacion": "Resolver divisiones sin ayuda, explicar qué significa el residuo (pregunta de comprobación) y resolver un problema de reparto (reto final).",
+  "metadatos": {
+    "fuente_curricular": "Programa Sintético de la Fase 4 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 3º grado: divisiones de reparto y agrupamiento, «en particular con la multiplicación». 4º grado: «reconoce al cociente y al residuo como resultado de una división».",
+    "referencias": [
+      "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf"
+    ],
+    "licencia": "Contenido original del equipo ThinkLoop. Licencia por definir (propuesta: CC BY-SA 4.0).",
+    "autor": "Equipo ThinkLoop (borrador redactado con apoyo de IA)",
+    "revisado_por": null,
+    "fecha_revision": null,
+    "estado": "verificacion_matematica",
+    "alineacion_verificada": "2026-11-22: niveles cotejados con los programas sintéticos publicados por la SEP (2024).",
+    "verificacion": "Cuentas y ejemplos revisados uno por uno; pruebas automáticas: respuestas contra un cálculo independiente, pasos de las pistas correctos y que ninguna pista revele el resultado. Falta la revisión pedagógica de una docente."
+  },
+  "habilidades": [
+    {
+      "id": "div.exacta",
+      "tipo": "div_exacta",
+      "nombre": "Dividir es repartir",
+      "objetivo": "Entender la división como reparto en partes iguales y como la operación inversa de la multiplicación.",
+      "explicacion": {
+        "titulo": "Repartir en partes iguales",
+        "ideas": [
+          "12 ÷ 3 pregunta: si reparto 12 entre 3, ¿cuánto le toca a cada uno?",
+          "También pregunta: ¿qué número por 3 da 12?",
+          "Como 3 × 4 = 12, entonces 12 ÷ 3 = 4."
+        ],
+        "por_que": "La división es la multiplicación al revés: si te sabes las tablas, ya sabes dividir."
+      },
+      "comprobacion": {
+        "pregunta": "¿Qué pregunta 20 ÷ 4?",
+        "opciones": {
+          "reparto": "Si reparto 20 entre 4, ¿cuánto le toca a cada uno?",
+          "quito": "Cuánto queda si le quito 4 a 20",
+          "multi": "Cuánto es 20 × 4"
+        },
+        "correcta": "reparto",
+        "retro": {
+          "quito": "Quitar 4 una sola vez es una resta. Dividir es repartir TODO en partes iguales.",
+          "multi": "Multiplicar hace más grande. Si repartes 20, a cada uno le toca menos de 20."
+        }
+      },
+      "otra_forma": "Reparte con dibujos: dibuja un círculo por persona y ve poniendo una rayita en cada uno, por turnos, hasta repartir todo. Cuenta cuántas rayitas quedaron en cada círculo.",
+      "enunciado": "Resuelve: {n} ÷ {d}",
+      "ayuda_respuesta": "Escribe solo el número, por ejemplo 4",
+      "pistas": [
+        {
+          "texto": "Dividir {n} entre {d} es buscar qué número por {d} da {n}. Prueba con un número cualquiera, por ejemplo {p}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "{d} × {p} =",
+                "acepta": [
+                  "{dp}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Compara lo que obtuviste con {n}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿{dp} es más o menos que {n}?",
+                "opciones": [
+                  "Más",
+                  "Menos"
+                ],
+                "acepta": [
+                  "{cmp}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Si te pasaste, prueba con un número más chico; si te faltó, con uno más grande. Busca el que multiplicado por {d} dé exactamente {n}."
+        }
+      ],
+      "resolucion": "Buscamos qué número por {d} da {n}: {d} × {res} = {n}. Entonces {n} ÷ {d} = {res}.",
+      "errores": {
+        "multiplico": {
+          "retro": "Multiplicaste. Al repartir, a cada quien le toca menos que el total.",
+          "docente": "Multiplica en lugar de dividir",
+          "accion": "Hacer repartos concretos con fichas y comprobar que cada parte es menor que el total."
+        },
+        "resto": {
+          "retro": "Le quitaste {d} una sola vez. Dividir es repartir TODO en grupos iguales.",
+          "docente": "Resta el divisor una sola vez (20 ÷ 4 = 16)",
+          "accion": "Hacer el reparto completo con fichas y contar cuántas rondas hubo."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca: revisa la tabla del {d}.",
+          "docente": "Procedimiento correcto, errores en las tablas",
+          "accion": "Practicar las tablas y comprobar multiplicando: resultado × divisor = dividendo."
+        }
+      }
+    },
+    {
+      "id": "div.residuo",
+      "tipo": "div_residuo",
+      "nombre": "División con residuo",
+      "objetivo": "Entender el residuo como lo que sobra de un reparto y saber que siempre es menor que el divisor.",
+      "explicacion": {
+        "titulo": "Cuando sobra: el residuo",
+        "ideas": [
+          "No siempre se reparte exacto: 17 ÷ 5 → a cada uno le tocan 3 y sobran 2.",
+          "El 3 es el cociente y el 2 es el residuo.",
+          "El residuo siempre es menor que el divisor: si sobraran 5 o más, ¡alcanzaría para otra ronda!"
+        ],
+        "por_que": "El residuo dice lo que no se pudo repartir en partes iguales."
+      },
+      "comprobacion": {
+        "pregunta": "En 17 ÷ 5, ¿podrían sobrar 6?",
+        "opciones": {
+          "no": "No, porque con 5 o más alcanza para darle uno más a cada quien",
+          "si": "Sí, puede sobrar cualquier número",
+          "cero": "No, en una división nunca sobra nada"
+        },
+        "correcta": "no",
+        "retro": {
+          "si": "Si sobran 6 y son 5 personas, ¡todavía le puedes dar uno más a cada una!",
+          "cero": "A veces sí sobra: 17 dulces entre 5 niños no se reparten exacto."
+        }
+      },
+      "otra_forma": "Piensa en 17 dulces para 5 niños: das una ronda (5), otra (10), otra (15). Ya no alcanza para una ronda completa. Las rondas son el cociente y los dulces que quedan son el residuo.",
+      "enunciado": "Resuelve: {n} ÷ {d}. Escribe el cociente y el residuo.",
+      "ayuda_respuesta": "Escribe cociente y residuo así: 7 r 2",
+      "pistas": [
+        {
+          "texto": "Escribe la tabla del {d} hasta pasarte de {n}.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Cuál es el primer número de la tabla del {d} que pasa de {n}?",
+                "acepta": [
+                  "{dq1}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "Ese ya se pasa. El número anterior de la tabla es lo que sí alcanza a repartirse.",
+          "paso": {
+            "campos": [
+              {
+                "etiqueta": "¿Cuál es el número anterior en la tabla del {d}?",
+                "acepta": [
+                  "{dq}"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "texto": "¿En qué lugar de la tabla está ese número? Ese lugar es el cociente. Lo que le falta para llegar a {n} es el residuo."
+        }
+      ],
+      "resolucion": "En la tabla del {d}, el último que no pasa de {n} es {dq} = {d} × {q}. Sobran {n} − {dq} = {r}. Resultado: {res}.",
+      "errores": {
+        "residuo_grande": {
+          "retro": "Tu residuo es {d} o más: ¡alcanza para otra ronda! El residuo debe ser menor que el divisor.",
+          "docente": "Deja un residuo mayor o igual que el divisor",
+          "accion": "Repartir fichas físicamente hasta que ya no alcance una ronda completa."
+        },
+        "invertidos": {
+          "retro": "Tienes los números correctos pero al revés: primero va el cociente (cuánto le toca a cada uno) y luego el residuo (lo que sobra).",
+          "docente": "Invierte cociente y residuo",
+          "accion": "Usar siempre la frase «le tocan __ y sobran __»."
+        },
+        "sin_residuo": {
+          "retro": "Bien el cociente, pero también dime cuánto sobra. Escríbelo así: 7 r 2.",
+          "docente": "Omite el residuo",
+          "accion": "Pedir que comprueben: cociente × divisor + residuo = dividendo."
+        },
+        "error_calculo": {
+          "retro": "Muy cerca. Comprueba: cociente × {d} + residuo debe dar {n}.",
+          "docente": "Procedimiento correcto, errores de cuentas",
+          "accion": "Comprobar siempre con cociente × divisor + residuo = dividendo."
+        }
+      }
+    }
+  ],
+  "reto_final": {
+    "habilidad": "div.residuo",
+    "historias": [
+      "Hay {n} dulces para repartir entre {d} niños en partes iguales. ¿Cuántos le tocan a cada uno y cuántos sobran?",
+      "{n1} tiene {n} estampas y pega {d} en cada página de su álbum. ¿Cuántas páginas llena completas y cuántas estampas le sobran?",
+      "Van {n} personas de excursión en autos de {d} lugares. ¿Cuántos autos se llenan completos y cuántas personas sobran?"
+    ]
+  },
+  "fundamentos": {
+    "titulo": "Qué es dividir y qué significa el residuo",
+    "intro": "Dividir es repartir en partes iguales. Veamos cómo se relaciona con la multiplicación y cómo comprobar una división.",
+    "tarjetas": [
+      {
+        "titulo": "Repartir o agrupar",
+        "texto": "12 ÷ 3 puede preguntar «si reparto 12 entre 3, ¿cuánto le toca a cada uno?» o «¿cuántos grupos de 3 caben en 12?». En los dos casos la respuesta es 4."
+      },
+      {
+        "titulo": "Los nombres",
+        "texto": "En 12 ÷ 3 = 4, el 12 es el dividendo (lo que se reparte), el 3 es el divisor (entre cuántos se reparte) y el 4 es el cociente (cuánto le toca a cada uno)."
+      },
+      {
+        "titulo": "La división deshace la multiplicación",
+        "texto": "12 ÷ 3 = 4 porque 3 × 4 = 12. Multiplicar y dividir son operaciones inversas. Por eso, si te sabes las tablas, ya sabes dividir."
+      },
+      {
+        "titulo": "Cuando sobra: el residuo",
+        "texto": "Si repartes 17 dulces entre 5 niños, a cada uno le tocan 3 (son 15) y sobran 2. El 3 es el cociente y el 2 es el residuo: lo que no alcanzó para repartirse en partes iguales.",
+        "visual": {
+          "kind": "reparto",
+          "total": 17,
+          "grupos": 5,
+          "caption": "17 entre 5: le tocan 3 a cada uno y sobran 2."
+        }
+      },
+      {
+        "titulo": "La regla para saber que está bien",
+        "texto": "Dividendo = divisor × cociente + residuo. Con el ejemplo: 17 = 5 × 3 + 2. Además, el residuo siempre es menor que el divisor: si sobraran 5 o más, alcanzaría para darle uno más a cada quien. Con esta regla puedes comprobar cualquier división."
+      },
+      {
+        "titulo": "¿Y entre cero?",
+        "texto": "Repartir 12 dulces entre 0 personas no tiene sentido, y no hay ningún número que multiplicado por 0 dé 12. Por eso no se puede dividir entre 0."
+      }
+    ],
+    "pregunta": {
+      "pregunta": "¿Cómo compruebas que 17 ÷ 5 da 3 y sobran 2?",
+      "opciones": {
+        "regla": "Con 5 × 3 + 2 = 17",
+        "resta": "Con 17 − 5 = 12",
+        "suma": "Con 3 + 2 = 5"
+      },
+      "correcta": "regla",
+      "retro": {
+        "resta": "17 − 5 solo quita una ronda. Para comprobar, junta todas las rondas (5 × 3) y lo que sobró (2).",
+        "suma": "Que 3 + 2 dé 5 es casualidad. La comprobación es: divisor × cociente + residuo = dividendo."
+      }
+    },
+    "fuentes": [
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 3 (1º y 2º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/4.pdf",
+        "cita": "2º grado: problemas «que implican repartos con divisores menores que 10 y dividendo de dos cifras»; multiplicación y división «y su relación como operaciones inversas».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "SEP (2024). Programa Sintético de la Fase 4 (3º y 4º de primaria). Plan de Estudio 2022.",
+        "url": "https://educacionbasica.sep.gob.mx/wp-content/uploads/2024/08/5.pdf",
+        "cita": "3º grado: divisiones «(reparto y agrupamiento) […] en particular con la multiplicación»; 4º grado: «reconoce al cociente y al residuo como resultado de una división».",
+        "uso": "Fundamento curricular: qué se enseña, en qué grado y con qué enfoque. Citamos fragmentos breves con su fuente; no reproducimos el documento (la SEP solo autoriza reproducirlo sin fines comerciales y sin modificarlo)."
+      },
+      {
+        "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.5 Divide Whole Numbers.",
+        "url": "https://openstax.org/books/prealgebra-2e/pages/1-5-divide-whole-numbers",
+        "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  }
+}
