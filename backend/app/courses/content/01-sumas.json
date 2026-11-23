@@ -10,7 +10,7 @@
     "tono": "naranja"
   },
   "prerrequisitos": [],
-  "evaluacion": "Resolver sumas sin ayuda, responder la pregunta de comprobación de cada idea y resolver un problema en contexto (reto final).",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de la Fase 3 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: «Resuelve situaciones problemáticas vinculadas a su contexto que implican sumas utilizando agrupamientos y el algoritmo convencional con números de hasta dos cifras».",
     "referencias": [
@@ -33,9 +33,75 @@
       "explicacion": {
         "titulo": "Sumar por columnas",
         "ideas": [
-          "Un número como 34 son 3 decenas y 4 unidades.",
-          "Para sumar, juntas unidades con unidades y decenas con decenas.",
-          "34 + 25: 4 + 5 = 9 unidades y 3 + 2 = 5 decenas → 59."
+          {
+            "etapa": "concreto",
+            "texto": "Arma 34 con 3 barras de diez y 4 cubitos, y 25 con 2 barras y 5 cubitos. Júntalos: barras con barras y cubitos con cubitos.",
+            "visual": {
+              "kind": "base10",
+              "numero": 59,
+              "caption": "Al juntarlos: 5 barras y 9 cubitos. 59 = 50 + 9"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Una barra para 34 y otra para 25, una tras otra. La barra completa es el total que buscas (?).",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 34,
+                      "texto": "34"
+                    },
+                    {
+                      "n": 25,
+                      "texto": "25",
+                      "tono": "b"
+                    }
+                  ],
+                  "llave": "?"
+                }
+              ],
+              "caption": "Parte + parte = total"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "4 + 5 = 9 unidades y 3 + 2 = 5 decenas → 59.",
+            "visual": {
+              "kind": "columnas",
+              "encabezados": [
+                "D",
+                "U"
+              ],
+              "filas": [
+                {
+                  "etiqueta": "",
+                  "celdas": [
+                    "3",
+                    "4"
+                  ]
+                },
+                {
+                  "etiqueta": "+",
+                  "celdas": [
+                    "2",
+                    "5"
+                  ]
+                },
+                {
+                  "etiqueta": "",
+                  "celdas": [
+                    "5",
+                    "9"
+                  ],
+                  "tipo": "resultado"
+                }
+              ],
+              "caption": "34 + 25 = 59"
+            }
+          }
         ],
         "por_que": "Decenas y unidades son cosas distintas, como billetes de 10 y monedas de 1: cada una se cuenta por su lado."
       },
@@ -86,6 +152,26 @@
           "texto": "Ya tienes las dos columnas. Escribe primero las decenas y luego las unidades para formar tu resultado."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{a}",
+                "texto": "{a}"
+              },
+              {
+                "n": "{b}",
+                "texto": "{b}",
+                "tono": "b"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "Modelo de barras: las dos partes juntas forman el total que buscas."
+      },
       "resolucion": "Unidades: {u1} + {u2} = {us}. Decenas: {d1} + {d2} = {ds}. Juntamos {ds} decenas y {us} unidades: {res}.",
       "errores": {
         "sumo_todos": {
@@ -108,9 +194,75 @@
       "explicacion": {
         "titulo": "Sumar llevando",
         "ideas": [
-          "Si las unidades suman 10 o más, ya formaste una decena nueva.",
-          "Ejemplo: 47 + 38. Unidades: 7 + 8 = 15, o sea 1 decena y 5 unidades.",
-          "Escribes el 5 y «llevas» la decena: 4 + 3 + 1 = 8 decenas → 85."
+          {
+            "etapa": "concreto",
+            "texto": "7 cubitos y 8 cubitos son 15 cubitos. Con 10 de ellos armas una barra nueva de diez y quedan 5 sueltos.",
+            "visual": {
+              "kind": "base10",
+              "numero": 15,
+              "caption": "15 cubitos: 1 barra y 5 sueltos. 15 = 10 + 5"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Una barra de 47 y otra de 38 forman el total. Antes de calcular, estima: es casi 50 + 40, o sea cerca de 90.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 47,
+                      "texto": "47"
+                    },
+                    {
+                      "n": 38,
+                      "texto": "38",
+                      "tono": "b"
+                    }
+                  ],
+                  "llave": "?"
+                }
+              ],
+              "caption": "Parte + parte = total"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "7 + 8 = 15. Escribes el 5 y «llevas» la decena: 4 + 3 + 1 = 8 decenas → 85.",
+            "visual": {
+              "kind": "columnas",
+              "encabezados": [
+                "D",
+                "U"
+              ],
+              "filas": [
+                {
+                  "etiqueta": "",
+                  "celdas": [
+                    "4",
+                    "7"
+                  ]
+                },
+                {
+                  "etiqueta": "+",
+                  "celdas": [
+                    "3",
+                    "8"
+                  ]
+                },
+                {
+                  "etiqueta": "",
+                  "celdas": [
+                    "8",
+                    "5"
+                  ],
+                  "tipo": "resultado"
+                }
+              ],
+              "caption": "47 + 38 = 85 (llevando 1 decena)"
+            }
+          }
         ],
         "por_que": "«Llevar» no es un truco: es cambiar 10 monedas de 1 peso por un billete de 10."
       },
@@ -174,6 +326,26 @@
           "texto": "Junta las decenas que obtuviste con las unidades que escribiste abajo."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{a}",
+                "texto": "{a}"
+              },
+              {
+                "n": "{b}",
+                "texto": "{b}",
+                "tono": "b"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "Modelo de barras: las dos partes juntas forman el total que buscas."
+      },
       "resolucion": "Unidades: {u1} + {u2} = {us} → escribo {ur} y llevo 1. Decenas: {d1} + {d2} + 1 = {ds}. Resultado: {res}.",
       "errores": {
         "no_llevo": {
@@ -195,6 +367,7 @@
     }
   ],
   "reto_final": {
+    "uso": "Problemas en contexto de la evaluación final.",
     "habilidad": "suma.llevando",
     "historias": [
       "En la biblioteca hay {a} libros de cuentos y {b} libros de ciencia. ¿Cuántos libros hay en total?",
@@ -342,6 +515,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.2 Add Whole Numbers.",
         "url": "https://openstax.org/books/prealgebra-2e/pages/1-2-add-whole-numbers",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "¿Por qué en 47 + 38 se «lleva» 1 a las decenas?",
+        "opciones": {
+          "decena": "Porque 7 + 8 = 15, y 10 de esas unidades forman una decena nueva",
+          "regla": "Porque al sumar siempre se lleva 1",
+          "sobra": "Porque el 1 sobra y no importa dónde se escriba"
+        },
+        "correcta": "decena",
+        "retro": {
+          "regla": "No siempre: solo cuando las unidades suman 10 o más. En 21 + 34 no se lleva nada.",
+          "sobra": "Sí importa: ese 1 vale una decena (10), por eso va con las decenas."
+        }
+      },
+      {
+        "pregunta": "Sofía sumó 34 + 25 y le dio 14. ¿Qué hizo mal?",
+        "opciones": {
+          "mezclo": "Sumó todas las cifras como si fueran unidades: 3 + 4 + 2 + 5",
+          "resto": "Restó en lugar de sumar",
+          "orden": "Sumó en el orden equivocado"
+        },
+        "correcta": "mezclo",
+        "retro": {
+          "resto": "Si restara, le daría 9. Su 14 sale de 3 + 4 + 2 + 5: mezcló decenas con unidades.",
+          "orden": "En la suma el orden no cambia el resultado. El problema es que mezcló decenas con unidades."
+        }
       }
     ]
   }

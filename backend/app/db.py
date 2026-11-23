@@ -436,6 +436,25 @@ def has_course_event(student_id: int, kind: str, course_id: str) -> bool:
                          " LIMIT 1", (student_id, kind, course_id)).fetchone() is not None
 
 
+def exam_status(student_id: int, course_id: str) -> dict:
+    """Evaluaciones finales del curso: si ya aprobó, su mejor calificación y cuántas veces la presentó."""
+    with connect() as c:
+        rows = c.execute("SELECT detail, created_at FROM events WHERE student_id=? AND kind='evaluacion'"
+                         " AND json_extract(detail,'$.course')=? ORDER BY created_at", (student_id, course_id)
+                         ).fetchall()
+    tries = [{**json.loads(r["detail"]), "at": r["created_at"]} for r in rows]
+    passed = [t for t in tries if t.get("passed")]
+    best = max(tries, key=lambda t: (t.get("passed", False), t.get("score", 0)), default=None)
+    return {
+        "taken": len(tries),
+        "passed": bool(passed),
+        "passed_at": passed[0]["at"] if passed else None,
+        "score": best["score"] if best else None,
+        "total": best["total"] if best else None,
+        "simulated": bool(best and best.get("simulado")),
+    }
+
+
 def count_events(student_id: int, kind: str) -> int:
     with connect() as c:
         return c.execute("SELECT COUNT(*) AS n FROM events WHERE student_id=? AND kind=?",
@@ -490,9 +509,13 @@ def achievement_facts(student_id: int) -> dict[str, Optional[str]]:
         # Resolvió los pasos de las pistas y luego el ejercicio (para ver la 2ª pista hay que resolver un paso)
         "paso_a_paso": ("SELECT MIN(created_at) AS t FROM attempts WHERE student_id=? AND correct=1"
                         " AND hints_used >= 2"),
-        # Resolvió un problema nuevo en contexto sin ninguna pista
-        "por_tu_cuenta": ("SELECT MIN(created_at) AS t FROM attempts WHERE student_id=? AND correct=1"
-                          " AND phase='transferencia' AND hints_used=0"),
+        # Aprobó una evaluación final (sin pistas ni ayuda). Antes: el reto final sin pistas.
+        "por_tu_cuenta": (
+            "SELECT MIN(t) AS t FROM ("
+            " SELECT created_at AS t FROM events WHERE student_id=:s AND kind='evaluacion'"
+            " AND json_extract(detail,'$.passed')=1"
+            " UNION ALL SELECT created_at FROM attempts WHERE student_id=:s AND correct=1"
+            " AND phase='transferencia' AND hints_used=0)"),
         # Usó la ayuda extra y después resolvió en esa sesión
         "pregunta": (
             "SELECT MIN(a.created_at) AS t FROM events e JOIN attempts a ON a.session_id=e.session_id"
@@ -507,7 +530,8 @@ def achievement_facts(student_id: int) -> dict[str, Optional[str]]:
             " AND a.created_at > e.created_at WHERE e.student_id=? AND e.kind='pausa'"),
     }
     with connect() as c:
-        out = {k: c.execute(sql, (student_id,)).fetchone()["t"] for k, sql in q.items()}
+        out = {k: c.execute(sql, {"s": student_id} if ":s" in sql else (student_id,)).fetchone()["t"]
+               for k, sql in q.items()}
     overcome = overcome_misconceptions(student_id)
     out["error_vencido"] = min((o["since"] for o in overcome), default=None)
     return out

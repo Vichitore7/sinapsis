@@ -90,12 +90,17 @@ def _student_row(s: dict, course, labels: dict) -> dict:
         reasons.append("muchos intentos sin acertar")
     if act["hints"] >= 8 and len(mastered) < len(course.skills):
         reasons.append("depende mucho de las pistas")
+    exam = db.exam_status(s["id"], course.id)
+    if exam["taken"] >= 2 and not exam["passed"]:
+        reasons.append("no ha aprobado la evaluación final tras varios intentos")
     return {
         "id": s["id"],
         "name": s["name"],
         "simulated": bool(s.get("simulated")),
         "current_skill": course.skill_names.get(act.get("skill") or "", None),
-        "completed": act.get("status") == "completed",
+        "completed": act.get("status") == "completed" and exam["passed"],
+        "exam": {"passed": exam["passed"], "score": exam["score"], "total": exam["total"],
+                 "taken": exam["taken"]} if exam["taken"] else None,
         "mastered": len(mastered),
         "attempts": act["attempts"],
         "accuracy": round(accuracy, 2) if accuracy is not None else None,
@@ -140,6 +145,7 @@ def group_summary(group_code: str, course_id: str = DEMO_COURSE) -> dict:
         "students_total": n,
         "students_active": sum(1 for r in rows if r["attempts"] > 0),
         "completed": sum(1 for r in rows if r["completed"]),
+        "exam_passed": sum(1 for r in rows if r["exam"] and r["exam"]["passed"]),
         "simulated": any(r["simulated"] for r in rows),
         "headline": headline,
         "misconceptions": misconceptions,
@@ -226,6 +232,9 @@ def seed_demo_group(rng: Optional[random.Random] = None) -> str:
         state = {"course": DEMO_COURSE, "phase": "cierre" if level == len(SKILLS) else "practica",
                  "skill": SKILLS[min(level, len(SKILLS) - 1)]}
         db.save_session(sid, state, "completed" if level == len(SKILLS) else "active")
+        if level == len(SKILLS):
+            db.log_event("evaluacion", sid, s["id"], {"course": DEMO_COURSE, "score": rng.choice([4, 5]),
+                                                      "total": 5, "passed": True, "simulado": True})
         if i in (4, 11):
             for _ in range(2):
                 db.log_event("frustracion", sid, s["id"], {"text": "(simulado)"})

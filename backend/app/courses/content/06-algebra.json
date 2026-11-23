@@ -13,7 +13,7 @@
     "MAT-MULT",
     "MAT-DIV"
   ],
-  "evaluacion": "Evaluar expresiones y resolver ecuaciones sin ayuda, explicar por qué se hace lo mismo en los dos lados (pregunta de comprobación) y plantear una ecuación a partir de un problema (reto final).",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de la Fase 6 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 1º grado: «Interpreta y plantea diversas situaciones del lenguaje común al lenguaje algebraico» y «Resuelve ecuaciones de la forma Ax=B, Ax+B=C, Ax+B=Cx+D con el uso de las propiedades de la igualdad».",
     "referencias": [
@@ -36,9 +36,45 @@
       "explicacion": {
         "titulo": "Usar letras",
         "ideas": [
-          "En álgebra, una letra guarda un número. En 3x, la x es un número que todavía no conocemos.",
-          "3x significa 3 × x. Si x = 4, entonces 3x = 3 × 4 = 12.",
-          "Para 3x + 5 con x = 4: primero 3 × 4 = 12, luego 12 + 5 = 17."
+          {
+            "etapa": "concreto",
+            "texto": "Una letra guarda un número. Imagina 3 cajas iguales con x canicas cada una y 5 canicas sueltas. Si en cada caja hay 4, cuenta las cajas y luego las sueltas.",
+            "visual": {
+              "kind": "arreglo",
+              "filas": 3,
+              "columnas": 4,
+              "caption": "3 cajas de 4 = 12 canicas"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "3 barras iguales de x y una barra de 5. Cambia cada x por 4.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 4,
+                      "texto": "x",
+                      "repetir": 3
+                    },
+                    {
+                      "n": 5,
+                      "texto": "5",
+                      "tono": "b"
+                    }
+                  ],
+                  "llave": "3x + 5"
+                }
+              ],
+              "caption": "3x + 5 con x = 4"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "3x significa 3 × x. Con x = 4: primero 3 × 4 = 12, luego 12 + 5 = 17."
+          }
         ],
         "por_que": "Las letras permiten escribir reglas que sirven para cualquier número."
       },
@@ -76,6 +112,27 @@
           "texto": "Ahora súmale {b} a lo que obtuviste."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{v}",
+                "texto": "x",
+                "repetir": "{a}"
+              },
+              {
+                "n": "{b}",
+                "texto": "{b}",
+                "tono": "b"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "{a} barras de x (cada x vale {v}) y una de {b}."
+      },
       "resolucion": "Con x = {v}: {a} × {v} = {av}, y {av} + {b} = {res}.",
       "errores": {
         "concateno": {
@@ -108,9 +165,45 @@
       "explicacion": {
         "titulo": "La balanza",
         "ideas": [
-          "Una ecuación es como una balanza en equilibrio: x + 5 = 12.",
-          "Para dejar la x sola, quita 5 de los dos lados: la balanza sigue equilibrada.",
-          "x = 12 − 5 = 7. Compruébalo: 7 + 5 = 12. ✓"
+          {
+            "etapa": "concreto",
+            "texto": "Una balanza en equilibrio. De un lado, una bolsa con x canicas y 5 sueltas; del otro, 12 canicas. Si quitas 5 de cada lado, sigue equilibrada.",
+            "visual": {
+              "kind": "balanza",
+              "izquierda": "x + 5",
+              "derecha": "12"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "La barra completa vale 12; una parte es 5 y la otra es x. Para saber x, a 12 le quitas la parte que ya conoces.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "total": 12,
+                  "segmentos": [
+                    {
+                      "resto": true,
+                      "texto": "x",
+                      "hueco": true
+                    },
+                    {
+                      "n": 5,
+                      "texto": "5",
+                      "tono": "b"
+                    }
+                  ],
+                  "llave": "12"
+                }
+              ],
+              "caption": "x + 5 = 12"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "X = 12 − 5 = 7. Compruébalo: 7 + 5 = 12. ✓"
+          }
         ],
         "por_que": "Lo que haces de un lado lo haces del otro: así la igualdad no se rompe."
       },
@@ -148,6 +241,28 @@
           "texto": "Quita {a} de los dos lados: del lado derecho queda {b} − {a}."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "total": "{b}",
+            "segmentos": [
+              {
+                "resto": true,
+                "texto": "x",
+                "hueco": true
+              },
+              {
+                "n": "{a}",
+                "texto": "{a}",
+                "tono": "b"
+              }
+            ],
+            "llave": "{b}"
+          }
+        ],
+        "caption": "x y {a} juntos forman {b}."
+      },
       "resolucion": "x + {a} = {b}. Quitamos {a} de los dos lados: x = {b} − {a} = {res}. Comprobación: {res} + {a} = {b}.",
       "errores": {
         "sumo": {
@@ -170,9 +285,45 @@
       "explicacion": {
         "titulo": "Dos pasos, en orden",
         "ideas": [
-          "En 3x + 4 = 19 hay dos cosas pegadas a la x: el × 3 y el + 4.",
-          "Primero quita el 4 de los dos lados: 3x = 15.",
-          "Luego divide entre 3 los dos lados: x = 5. Comprueba: 3 × 5 + 4 = 19. ✓"
+          {
+            "etapa": "concreto",
+            "texto": "En la balanza hay 3 bolsas iguales con x canicas y 4 sueltas; del otro lado, 19. Primero quita las 4 sueltas de los dos lados; luego reparte lo que queda entre las 3 bolsas.",
+            "visual": {
+              "kind": "balanza",
+              "izquierda": "3x + 4",
+              "derecha": "19"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "3 barras iguales de x y una de 4 forman 19. Sin el 4 quedan 15, repartidos en 3 partes iguales.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 5,
+                      "texto": "x",
+                      "repetir": 3,
+                      "hueco": true
+                    },
+                    {
+                      "n": 4,
+                      "texto": "4",
+                      "tono": "b"
+                    }
+                  ],
+                  "llave": "19"
+                }
+              ],
+              "caption": "3x + 4 = 19"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "3x + 4 = 19 → 3x = 15 → x = 5. Comprueba: 3 × 5 + 4 = 19. ✓"
+          }
         ],
         "por_que": "Se deshace en orden inverso: lo último que se le hizo a la x (sumar 4) es lo primero que se quita."
       },
@@ -228,6 +379,28 @@
           "texto": "Divide {cb} entre {a} para encontrar x."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{sol}",
+                "texto": "x",
+                "repetir": "{a}",
+                "hueco": true
+              },
+              {
+                "n": "{b}",
+                "texto": "{b}",
+                "tono": "b"
+              }
+            ],
+            "llave": "{c}"
+          }
+        ],
+        "caption": "{a} barras iguales de x y una de {b} forman {c}."
+      },
       "resolucion": "{a}x + {b} = {c}. Quitamos {b}: {a}x = {cb}. Dividimos entre {a}: x = {res}. Comprobación: {a} × {res} + {b} = {c}.",
       "errores": {
         "solo_divide": {
@@ -259,6 +432,7 @@
     }
   ],
   "reto_final": {
+    "uso": "Problemas en contexto de la evaluación final.",
     "habilidad": "alg.ec_dos_pasos",
     "historias": [
       "{n1} compró {a} cuadernos iguales y una pluma de {b} pesos. Pagó {c} pesos en total. ¿Cuánto costó cada cuaderno?",
@@ -331,6 +505,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, capítulos sobre lenguaje algebraico y resolución de ecuaciones.",
         "url": "https://openstax.org/details/books/prealgebra-2e",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "Para resolver x + 8 = 15, ¿por qué se resta 8 de los dos lados?",
+        "opciones": {
+          "balanza": "Para que la igualdad siga equilibrada, como una balanza",
+          "uno": "Basta con restarlo de un solo lado",
+          "sumar": "En realidad hay que sumar 8 a los dos lados"
+        },
+        "correcta": "balanza",
+        "retro": {
+          "uno": "Si quitas 8 de un solo lado, la balanza se desequilibra y la igualdad ya no es cierta.",
+          "sumar": "Sumar 8 deja x + 16 = 23: la x sigue acompañada. Para quitar un + 8 se resta 8."
+        }
+      },
+      {
+        "pregunta": "¿Cómo compruebas que x = 7 es la solución de 2x + 6 = 20?",
+        "opciones": {
+          "sustituir": "Cambiando la x por 7: 2 × 7 + 6 debe dar 20",
+          "repetir": "Resolviendo la ecuación otra vez de la misma forma",
+          "pegar": "Pegando el 2 y el 7: 27 + 6"
+        },
+        "correcta": "sustituir",
+        "retro": {
+          "repetir": "Repetir el procedimiento puede repetir el mismo error. Sustituir es más seguro: 2 × 7 + 6 debe dar 20.",
+          "pegar": "2x significa 2 × x, no «2 junto a x». Con x = 7, 2x es 2 × 7."
+        }
       }
     ]
   }

@@ -5,9 +5,18 @@ Fases:
   diagnostico   -> 1 ejercicio por habilidad, sin pistas, para ubicar al alumno
   explicacion   -> ideas cortas + pregunta de comprobación (se puede preguntar a Loop)
   practica      -> ejercicios con pistas progresivas hasta alcanzar dominio
-  transferencia -> problema en contexto, sin pistas de entrada (comprensión independiente)
+  evaluacion    -> evaluación final: un ejercicio por habilidad, un problema en contexto y una
+                   pregunta de «por qué», sin pistas ni IA. Se aprueba con EXAM_PASS de EXAM_SIZE;
+                   si no, se refuerzan las habilidades falladas y se vuelve a presentar.
   repaso        -> al regresar tras muchos días: comprobar qué se conserva
   cierre        -> resumen y recomendación del siguiente curso
+
+(«transferencia», el antiguo reto final de un solo problema, ya no se usa: las sesiones
+guardadas en esa fase pasan a la evaluación final al reanudarse.)
+
+Método Singapur (CPA): cada explicación va de lo concreto (objetos) a lo pictórico
+(modelo de barras) y a lo abstracto (números); la primera pista dibuja el modelo de
+barras del ejercicio, con «?» en lo que se busca.
 
 Ayuda en orden (nunca se entrega la respuesta final):
   1. Pistas progresivas: para ver la siguiente hay que responder el paso de la actual.
@@ -29,7 +38,8 @@ from . import db
 from .ai import TutorContext, get_provider
 from .courses import Course, UnknownCourse, all_courses, get_course, leaks_answer
 from .fractions_engine import check_step
-from .lesson import (ANSWER_REQUEST_WORDS, DEFAULT_STYLE, FAST_SECONDS, FAST_WRONG_LIMIT,
+from .lesson import (ANSWER_REQUEST_WORDS, DEFAULT_STYLE, EXAM_PASS, EXAM_SIZE, FAST_SECONDS,
+                     FAST_WRONG_LIMIT,
                      FRUSTRATION_WORDS, GUESS_ATTEMPTS, MASTERY_STREAK, MAX_EXERCISES_PER_SKILL,
                      MAX_HINTS_FOR_MASTERY, REVIEW_AFTER_DAYS, TUTOR_STYLES)
 
@@ -38,7 +48,8 @@ PHASE_LABELS = {
     "diagnostico": "Diagnóstico",
     "explicacion": "Explicación",
     "practica": "Práctica",
-    "transferencia": "Reto final",
+    "transferencia": "Reto final",   # fase antigua (sesiones guardadas antes de la evaluación)
+    "evaluacion": "Evaluación final",
     "repaso": "Repaso",
     "cierre": "Cierre",
 }
@@ -191,11 +202,14 @@ def progress_for(student_id: int, course: Course) -> dict:
     labels = course.teacher_labels()
     overcome = [o for o in db.overcome_misconceptions(student_id) if o["skill"] in course.skills]
     done = sum(1 for s in skills if s["mastered"])
+    exam = db.exam_status(student_id, course.id)
     return {
         "course": {"id": course.id, "title": course.title},
         "skills": skills,
-        "pct": round(100 * done / len(skills)) if skills else 0,
-        "completed": done == len(skills),
+        # La evaluación final cuenta como un paso más del curso
+        "pct": round(100 * (done + int(exam["passed"])) / (len(skills) + 1)) if skills else 0,
+        "completed": done == len(skills) and exam["passed"],
+        "exam": {**exam, "pass_mark": EXAM_PASS, "size": EXAM_SIZE},
         "errors_overcome": [labels.get(o["misconception"], {}).get("label", o["misconception"])
                             for o in overcome],
     }
@@ -207,7 +221,8 @@ def _view(session_id: int, student: dict, state: dict, messages: list[dict], sta
     ex = course.load(state["current"]) if state.get("current") else None
     hints_total = len(course.hints(ex)) if ex else 0
     stuck = _stuck(state)
-    can_hint = bool(ex) and phase in ("practica", "transferencia", "repaso") \
+    item = _exam_item(state)
+    can_hint = bool(ex) and phase in ("practica", "repaso") \
         and state["hints_shown"] < hints_total \
         and (phase == "practica" or state["attempts_on_current"] >= 1) \
         and not _step_pending(state) and not _prediction_pending(state)
@@ -216,6 +231,8 @@ def _view(session_id: int, student: dict, state: dict, messages: list[dict], sta
         actions = ["theory"]
     elif phase == "diagnostico":
         actions = ["answer", "dont_know"]
+    elif phase == "evaluacion":
+        actions = ["exam_option"] if item and item["kind"] == "concepto" else ["answer", "dont_know"]
     elif phase == "explicacion":
         actions = ["check"]
     elif phase == "cierre":
@@ -240,6 +257,7 @@ def _view(session_id: int, student: dict, state: dict, messages: list[dict], sta
         "exercise": course.public(ex) if ex and phase != "explicacion" else None,
         "explanation": _explanation_view(state, course) if phase == "explicacion" else None,
         "theory": _theory_view(state, course) if phase == "fundamentos" else None,
+        "exam": _exam_view(state, course, item) if item else None,
         "prediction": {"question": course.prediction_question(ex, state["prediction"]),
                        "options": [{"id": "mayor", "text": "Mayor"}, {"id": "menor", "text": "Menor"}]}
         if ex and _prediction_pending(state) else None,
@@ -270,6 +288,17 @@ def _explanation_view(state: dict, course: Course) -> Optional[dict]:
     order = state.get("check_order") or list(q["options"])
     return {**exp, "check": {"question": q["question"],
                              "options": [{"id": k, "text": q["options"][k]} for k in order]}}
+
+
+def _exam_view(state: dict, course: Course, item: dict) -> dict:
+    exam = state["exam"]
+    out = {"index": exam["i"] + 1, "total": len(exam["items"]), "kind": item["kind"],
+           "pass_mark": EXAM_PASS, "question": None}
+    if item["kind"] == "concepto":
+        q = course.exam_questions()[item["q"]]
+        out["question"] = {"question": q["question"],
+                           "options": [{"id": k, "text": q["options"][k]} for k in item["order"]]}
+    return out
 
 
 def _theory_view(state: dict, course: Course) -> Optional[dict]:
@@ -324,7 +353,13 @@ def start_or_resume(student_id: int, course_id: Optional[str] = None,
         messages = [] if last.get("kind") == "welcome" and away < 1 else \
             [_msg(_resume_summary(student, state, course, away), "welcome")]
         db.log_event("regreso", sid, student_id, {"days_away": round(away, 1), "course": course.id})
-        if away >= REVIEW_AFTER_DAYS and mastered and state["phase"] not in ("diagnostico", "repaso"):
+        if state["phase"] == "transferencia":
+            # Sesión guardada con el antiguo reto final: ahora el curso cierra con la evaluación
+            messages.append(_msg("El reto final ahora es parte de una evaluación final más completa.",
+                                 "info"))
+            messages += _begin_exam(state, course)
+        elif away >= REVIEW_AFTER_DAYS and mastered and \
+                state["phase"] not in ("diagnostico", "repaso", "evaluacion"):
             messages += _begin_review(state, course, mastered)
         status = "completed" if state["phase"] == "cierre" else "active"
         return _save_and_view(sid, student, state, messages, status)
@@ -433,15 +468,107 @@ def _begin_explanation(state: dict, course: Course, skill: str) -> list[dict]:
     return [_msg(f"Vamos con: {course.skill_names[skill]}. Son {n} ideas cortas y una pregunta.", "info")]
 
 
-def _begin_transfer(state: dict, course: Course, student: dict) -> list[dict]:
-    ex = course.transfer(random.Random(), set(state.get("used", [])))
+def _exam_plan(course: Course) -> list[dict]:
+    """Un ejercicio por habilidad (de la más fácil a la más difícil), un problema en contexto y
+    una pregunta de «por qué». Si el curso tiene pocas habilidades, se agregan ejercicios de las
+    más avanzadas hasta llegar a EXAM_SIZE."""
+    questions = course.exam_questions()
+    tail = int(bool(course.transfer_skill)) + int(bool(questions))
+    skills = list(course.skills)
+    extra = list(reversed(skills))
+    while len(skills) + tail < EXAM_SIZE:
+        skills.append(extra[(len(skills) - len(course.skills)) % len(extra)])
+    skills.sort(key=course.skills.index)
+    items = [{"kind": "ejercicio", "skill": s} for s in skills]
+    if course.transfer_skill:
+        items.append({"kind": "problema", "skill": course.transfer_skill})
+    if questions:
+        qi = random.randrange(len(questions))
+        order = list(questions[qi]["options"])
+        random.shuffle(order)
+        items.append({"kind": "concepto", "q": qi, "order": order})
+    return items
+
+
+def _exam_item(state: dict) -> Optional[dict]:
+    exam = state.get("exam")
+    if state.get("phase") != "evaluacion" or not exam or exam["i"] >= len(exam["items"]):
+        return None
+    return exam["items"][exam["i"]]
+
+
+def _load_exam_item(state: dict, course: Course) -> None:
+    item = _exam_item(state)
+    if item["kind"] == "concepto":
+        state["current"] = None
+        state["skill"] = None
+        state["step"] = None
+        state["prediction"] = None
+        return
+    state["skill"] = item["skill"]
+    avoid = set(state.get("used", []))
+    ex = course.transfer(random.Random(), avoid) if item["kind"] == "problema" else None
     if ex is None:
-        return _close(state, student, course)
-    state["phase"] = "transferencia"
-    state["skill"] = course.transfer_skill
+        ex = course.generate(item["skill"], random.Random(), avoid)
     _set_exercise(state, course, ex)
-    return [_msg("Reto final: un problema nuevo, por tu cuenta. Las pistas aparecen solo si te equivocas.",
-                 "info")]
+
+
+def _begin_exam(state: dict, course: Course) -> list[dict]:
+    items = _exam_plan(course)
+    state["phase"] = "evaluacion"
+    state["exam"] = {"items": items, "i": 0, "results": []}
+    state["practice_queue"] = []
+    state["review_queue"] = []
+    state["resume_after_review"] = None
+    _load_exam_item(state, course)
+    return [_msg(f"Evaluación final: {len(items)} preguntas para comprobar lo que aprendiste. Aquí no hay "
+                 f"pistas ni ayuda: es tu turno de demostrarlo. Apruebas con {EXAM_PASS} de {len(items)}. "
+                 "Si no, repasamos lo que faltó y la vuelves a presentar. Al final te digo cómo te fue "
+                 "en cada pregunta.", "info")]
+
+
+def _exam_record(state: dict, course: Course, student: dict, session_id: int, ok: bool,
+                 detail: dict) -> list[dict]:
+    exam = state["exam"]
+    item = _exam_item(state)
+    exam["results"].append({"kind": item["kind"], "skill": item.get("skill"), "ok": ok, **detail})
+    exam["i"] += 1
+    if exam["i"] < len(exam["items"]):
+        _load_exam_item(state, course)
+        return [_msg(f"Respuesta guardada. Pregunta {exam['i'] + 1} de {len(exam['items'])}.", "feedback")]
+    return _finish_exam(state, course, student, session_id)
+
+
+def _finish_exam(state: dict, course: Course, student: dict, session_id: int) -> list[dict]:
+    res = state["exam"]["results"]
+    score, total = sum(1 for r in res if r["ok"]), len(res)
+    passed = score >= min(EXAM_PASS, total)
+    db.log_event("evaluacion", session_id, student["id"],
+                 {"course": course.id, "score": score, "total": total, "passed": passed,
+                  "items": [{"kind": r["kind"], "skill": r.get("skill"), "ok": r["ok"]} for r in res]})
+    state["exam"] = None
+    state["current"] = None
+    # Resultado por pregunta: qué estuvo bien y qué revisar. Nunca la respuesta correcta.
+    msgs = [{"role": "tutor", "kind": "exam_result",
+             "text": f"Resultado de tu evaluación final: {score} de {total}.",
+             "exam": {"score": score, "total": total, "pass_mark": EXAM_PASS, "passed": passed,
+                      "items": [{k: r.get(k) for k in ("label", "prompt", "answer", "ok", "note")}
+                                for r in res]}}]
+    if passed:
+        msgs.append(_msg(f"¡Aprobaste la evaluación final con {score} de {total}! Lo resolviste sin pistas "
+                         f"ni ayuda: eso demuestra que lo entiendes. Ganaste la constancia de «{course.title}».",
+                         "milestone"))
+        return msgs + _close(state, student, course)
+    failed = {r["skill"] for r in res if not r["ok"] and r.get("skill")}
+    weak = [s for s in course.skills if s in failed] or [course.skills[-1]]
+    for s in weak:
+        db.unmark_mastered(student["id"], s)
+    names = ", ".join(f"«{course.skill_names[s]}»" for s in weak)
+    msgs.append(_msg(f"Esta vez no alcanzó: necesitas {EXAM_PASS} de {total}. No es un castigo, es "
+                     f"información: ya sé qué reforzar. Repasemos {names} y luego la presentas otra vez.",
+                     "info"))
+    state["practice_queue"] = weak[1:]
+    return msgs + _begin_explanation(state, course, weak[0])
 
 
 def _next_after_mastery(state: dict, course: Course, student: dict) -> list[dict]:
@@ -450,7 +577,7 @@ def _next_after_mastery(state: dict, course: Course, student: dict) -> list[dict
     if queue:
         state["practice_queue"] = queue[1:]
         return _begin_explanation(state, course, queue[0])
-    return _begin_transfer(state, course, student)
+    return _begin_exam(state, course)
 
 
 # --------------------------------------------------------------------------
@@ -478,6 +605,25 @@ def check_explanation(session_id: int, option: str, student_id: Optional[int] = 
     messages += [_msg("¡Exacto! Ya tienes la idea.", "feedback_ok"),
                  _msg("¡Ahora tú! Si te atoras, pide una pista.", "info")]
     return _save_and_view(session_id, student, state, messages)
+
+
+def exam_option(session_id: int, option: str, student_id: Optional[int] = None) -> dict:
+    """Pregunta de «por qué» de la evaluación final."""
+    _, student, state = _load(session_id, student_id)
+    item = _exam_item(state)
+    if not item or item["kind"] != "concepto":
+        raise TutorError("no hay una pregunta de la evaluación pendiente")
+    course = _course(state)
+    q = course.exam_questions()[item["q"]]
+    if option not in q["options"]:
+        raise TutorError("opción desconocida")
+    ok = option == q["correct"]
+    messages = [{"role": "student", "kind": "answer", "text": q["options"][option]}]
+    messages += _exam_record(state, course, student, session_id, ok,
+                             {"label": "Pregunta de por qué", "prompt": q["question"],
+                              "answer": q["options"][option], "note": None if ok else q["feedback"][option]})
+    status = "completed" if state["phase"] == "cierre" else "active"
+    return _save_and_view(session_id, student, state, messages, status)
 
 
 def predict(session_id: int, choice: str, student_id: Optional[int] = None) -> dict:
@@ -532,7 +678,7 @@ def step_answer(session_id: int, values: list[str], student_id: Optional[int] = 
 def answer(session_id: int, raw: str, dont_know: bool = False, student_id: Optional[int] = None) -> dict:
     _, student, state = _load(session_id, student_id)
     phase = state["phase"]
-    if not state.get("current") or phase in ("explicacion", "cierre"):
+    if not state.get("current") or phase in ("explicacion", "cierre", "fundamentos"):
         raise TutorError("no hay ejercicio activo")
     if _prediction_pending(state):
         raise TutorError("primero haz tu predicción: ¿mayor o menor?")
@@ -545,7 +691,7 @@ def answer(session_id: int, raw: str, dont_know: bool = False, student_id: Optio
 
     not_simplified = False
     if dont_know:
-        if phase != "diagnostico":
+        if phase not in ("diagnostico", "evaluacion"):
             raise TutorError("«No lo sé» solo existe en el diagnóstico; aquí puedes pedir una pista")
         result_correct, misconception = False, "no_sabe"
     else:
@@ -563,7 +709,7 @@ def answer(session_id: int, raw: str, dont_know: bool = False, student_id: Optio
 
     # Respuestas al azar: varios errores muy rápidos seguidos -> pedir calma (sin castigar)
     slow_down = []
-    if not result_correct and phase in ("practica", "transferencia", "repaso") and elapsed < FAST_SECONDS:
+    if not result_correct and phase in ("practica", "repaso") and elapsed < FAST_SECONDS:
         state["fast_wrong"] = state.get("fast_wrong", 0) + 1
         if state["fast_wrong"] == FAST_WRONG_LIMIT:
             db.log_event("respuestas_rapidas", session_id, student["id"])
@@ -575,8 +721,15 @@ def answer(session_id: int, raw: str, dont_know: bool = False, student_id: Optio
         messages += _handle_diagnostic(state, course, student, ex, result_correct)
     elif phase == "repaso":
         messages += _handle_review(state, course, student, ex, raw, result_correct, misconception, style)
-    elif phase == "transferencia":
-        messages += _handle_transfer(state, course, student, ex, raw, result_correct, misconception, style)
+    elif phase == "evaluacion":
+        label = ("Problema en contexto" if _exam_item(state)["kind"] == "problema"
+                 else course.skill_names[ex.skill])
+        note = None if result_correct else (
+            "La dejaste para después: es justo lo que conviene repasar." if dont_know
+            else course.feedback_for(ex, misconception))
+        messages += _exam_record(state, course, student, session_id, result_correct,
+                                 {"label": label, "prompt": course.prompt(ex),
+                                  "answer": None if dont_know else raw, "note": note})
     else:
         messages += _handle_practice(state, course, student, ex, raw, not_simplified, result_correct,
                                      misconception, style)
@@ -603,8 +756,9 @@ def _handle_diagnostic(state, course: Course, student, ex, correct: bool) -> lis
             break
         db.mark_mastered(student["id"], s)  # prerrequisitos demostrados
     if not failed:
-        msgs.append(_msg("¡Respondiste todo bien! Vamos directo al reto final para confirmarlo.", "info"))
-        return msgs + _begin_transfer(state, course, student)
+        msgs.append(_msg("¡Respondiste todo bien! Vamos directo a la evaluación final para confirmarlo.",
+                         "info"))
+        return msgs + _begin_exam(state, course)
     start = failed[0]
     state["practice_queue"] = list(course.skills[course.skills.index(start) + 1:])
     msgs.append(_msg(f"Listo. Según tus respuestas, empezaremos por «{course.skill_names[start]}». "
@@ -669,31 +823,6 @@ def _handle_practice(state, course: Course, student, ex, raw, not_simplified, co
     return msgs
 
 
-def _handle_transfer(state, course: Course, student, ex, raw, correct, misconception, style) -> list[dict]:
-    db.update_mastery(student["id"], ex.skill, correct, state["hints_shown"])
-    if correct:
-        msgs = [_msg(random.choice(style["correct"]), "feedback_ok"),
-                _msg("¡Resolviste un problema nuevo por tu cuenta! Eso demuestra comprensión, "
-                     "no memoria.", "milestone")]
-        db.mark_mastered(student["id"], course.transfer_skill)
-        return msgs + _close(state, student, course)
-    state["attempts_on_current"] += 1
-    msgs = [_msg(_feedback_wrong(style, course, ex, misconception), "feedback_wrong",
-                 course.misconception_visual(ex, raw, misconception))]
-    if state["attempts_on_current"] >= 2:
-        state["transfer_failures"] += 1
-        msgs.append(_msg("Este formato lo hace más difícil. Volvamos a practicar un poco y luego "
-                         "lo intentamos otra vez.", "info"))
-        state["phase"] = "practica"
-        state["streak"] = 0
-        state["streak_nohint"] = False
-        state["exercises_in_skill"] = 1
-        _next_exercise_for(state, course, course.transfer_skill)
-    else:
-        msgs.append(_msg("Ya puedes pedir una pista si la necesitas.", "info"))
-    return msgs
-
-
 def _handle_review(state, course: Course, student, ex, raw, correct, misconception, style) -> list[dict]:
     db.update_mastery(student["id"], ex.skill, correct, state["hints_shown"])
     if not correct:
@@ -728,6 +857,10 @@ def _handle_review(state, course: Course, student, ex, raw, correct, misconcepti
     if pending:
         state["practice_queue"] = pending[1:]
         return msgs + _begin_explanation(state, course, pending[0])
+    if not db.exam_status(student["id"], course.id)["passed"]:
+        msgs.append(_msg("Conservas todo lo que aprendiste. Solo te falta aprobar la evaluación final.",
+                         "milestone"))
+        return msgs + _begin_exam(state, course)
     msgs.append(_msg("Conservas todo lo que aprendiste. ¡Excelente memoria!", "milestone"))
     return msgs + _close(state, student, course)
 
@@ -738,6 +871,8 @@ def _close(state: dict, student: dict, course: Course) -> list[dict]:
     prog = progress_for(student["id"], course)
     mastered = [s["name"] for s in prog["skills"] if s["mastered"]]
     text = "Resumen de hoy: dominaste " + (", ".join(mastered) if mastered else "tus primeros pasos") + "."
+    if prog["exam"]["passed"]:
+        text += f" Evaluación final: {prog['exam']['score']} de {prog['exam']['total']}."
     if prog["errors_overcome"]:
         text += " Además dejaste atrás este error: " + "; ".join(prog["errors_overcome"]) + "."
     nxt = _next_course(student["id"], course)

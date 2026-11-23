@@ -13,7 +13,7 @@
     "MAT-MULT",
     "MAT-DIV"
   ],
-  "evaluacion": "Resolver sin pistas, responder la pregunta de comprobación, estimar antes de calcular y resolver un problema verbal nuevo (reto final). Criterio de dominio provisional en lesson.py.",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de las Fases 4 y 5 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 4º grado: sumas o restas de fracciones con diferente denominador «mediante diversos procedimientos, en particular, la equivalencia». 5º grado: fracciones equivalentes «al multiplicar o dividir al numerador y al denominador por un mismo número» y sumas con diferentes denominadores; 6º grado: continúa.",
     "referencias": [
@@ -182,6 +182,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, capítulo de fracciones (Fractions).",
         "url": "https://openstax.org/details/books/prealgebra-2e",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "¿Por qué 1/3 + 1/3 no es 2/6?",
+        "opciones": {
+          "tamano": "Porque juntar tercios da tercios: el denominador es el tamaño del pedazo",
+          "si": "Sí es 2/6: se suma arriba y abajo",
+          "grande": "Porque 2/6 es más grande que 2/3"
+        },
+        "correcta": "tamano",
+        "retro": {
+          "si": "2/6 es lo mismo que 1/3: ¡sería como juntar dos pedazos y tener uno! El denominador no se suma.",
+          "grande": "Al revés: los sextos son más chicos que los tercios. Y el problema de fondo es que el denominador no se suma."
+        }
+      },
+      {
+        "pregunta": "Para sumar 1/2 + 1/4, ¿por qué conviene convertir 1/2 en 2/4?",
+        "opciones": {
+          "iguales": "Para que los pedazos sean del mismo tamaño y se puedan contar juntos",
+          "mas": "Porque 2/4 es más que 1/2",
+          "regla": "Porque siempre hay que multiplicar por 2"
+        },
+        "correcta": "iguales",
+        "retro": {
+          "mas": "2/4 y 1/2 son la misma cantidad: solo cambia en cuántos pedazos está partida.",
+          "regla": "No siempre es por 2: se busca un denominador común. Aquí sirve el 4, que está en la tabla del 2 y del 4."
+        }
       }
     ]
   }

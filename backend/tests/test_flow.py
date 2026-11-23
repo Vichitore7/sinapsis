@@ -1,5 +1,5 @@
 """Prueba de punta a punta del flujo del MVP usando la API (proveedor de IA mock)."""
-from conftest import correct_answer, current, pass_check, predict_if_needed, register, start
+from conftest import correct_answer, current, pass_check, predict_if_needed, register, start, take_exam
 
 
 def wrong_2_5_style(view) -> str:
@@ -52,10 +52,11 @@ def test_full_lesson(client):
     for _ in range(2):
         v = predict_if_needed(client, session, v)
         v = client.post(f"/api/sessions/{session}/answer", json={"answer": correct_answer(v)}).json()
-    assert v["phase"] == "transferencia"
-    assert v["hints"]["can_hint"] is False   # sin pistas de entrada
+    assert v["phase"] == "evaluacion"
+    assert v["hints"]["can_hint"] is False and "hint" not in v["actions"]   # sin pistas ni IA
+    assert not v["help"]["ai"]
 
-    v = client.post(f"/api/sessions/{session}/answer", json={"answer": correct_answer(v)}).json()
+    v = take_exam(client, session, v)
     assert v["phase"] == "cierre" and v["status"] == "completed"
     assert all(s["mastered"] for s in v["progress"]["skills"])
     # El cierre recomienda el siguiente curso del catálogo
@@ -81,10 +82,9 @@ def test_return_after_two_months_triggers_review(client):
     register(client, "Diego")
     v = start(client)
     session = v["session_id"]
-    for _ in range(3):  # todo bien en el diagnóstico -> reto final
+    for _ in range(3):  # todo bien en el diagnóstico -> evaluación final
         v = client.post(f"/api/sessions/{session}/answer", json={"answer": correct_answer(v)}).json()
-    assert v["phase"] == "transferencia"
-    v = client.post(f"/api/sessions/{session}/answer", json={"answer": correct_answer(v)}).json()
+    v = take_exam(client, session, v)
     assert v["phase"] == "cierre"
 
     # Regresa 60 días después: repaso para comprobar qué conserva

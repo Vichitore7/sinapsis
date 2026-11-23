@@ -16,8 +16,8 @@ MVP para UniconHub Hack / Claude Build Day (28 nov 2026): **7 cursos de matemát
 Un tutor socrático que **guía con preguntas y dibujos en vez de dar la respuesta**. Detecta el error de razonamiento exacto (por ejemplo `1/2 + 1/3 = 2/5`), lo hace visible con barras y le entrega al docente un **reporte de un minuto** con los errores de todo el grupo.
 
 Bases pedagógicas que usamos:
-- **Método CPA de Singapur (Concreto → Pictórico → Abstracto)**: las pistas y la retroalimentación muestran barras de fracciones antes de la cuenta.
-- **Andamiaje que se retira**: pistas progresivas en la práctica y ninguna al inicio del reto final.
+- **Método CPA de Singapur (Concreto → Pictórico → Abstracto)**: cada explicación va de los objetos (bloques, fichas, balanza) al **modelo de barras** y al final a los números. La primera pista de la práctica dibuja el modelo de barras del ejercicio con «?» en lo que se busca.
+- **Andamiaje que se retira**: pistas progresivas en la práctica y ninguna en la evaluación final.
 - **Práctica de recuperación** (Roediger y Karpicke, 2006): al regresar tras ≥14 días, se comprueba con ejercicios distintos qué se conservó.
 - **Autoexplicación y predicción**: comprobar la idea antes de practicar y estimar antes de calcular obliga a leer y pensar, no solo a tantear.
 - **El error como información, no como castigo**: no hay vidas ni penalizaciones. La mascota se pone curiosa, no triste.
@@ -28,7 +28,7 @@ Bases pedagógicas que usamos:
 1. **Catálogo de cursos** (`#/cursos`): portadas hechas con una plantilla SVG propia (sin imágenes con derechos de autor), nivel, avance y estado («Nuevo», «En curso», «Completado»). Cada curso muestra el estado de su contenido: hoy todos están en **verificación matemática** (falta la revisión docente).
 2. **Teoría primero (fundamentos)**: al empezar un curso, el alumno lee de 4 a 6 tarjetas cortas sobre **qué es y por qué funciona**, con dibujos (bloques de base 10, columnas, arreglos de puntos, reparto, cuadrícula, balanza, barras de fracciones). Por ejemplo: qué es un número, cómo se agrupa en unidades, decenas y centenas, y por qué «llevamos». Termina con una pregunta de **por qué**, no de cómo, y una tarjeta de «así sabes que está bien» para comprobar sin ayuda. Cada tarjeta cita sus fuentes. Se puede releer en cualquier momento con el botón «📖 Teoría del curso».
 3. **Diagnóstico**: una pregunta por habilidad del curso para ubicar al alumno. Puede decir «No lo sé todavía».
-4. **Explicación** en 3 ideas cortas, una por pantalla. Para avanzar no hay botón de «Entendido»: hay una **pregunta de comprobación** cuyas opciones incorrectas son errores típicos (por ejemplo «Sí se puede: da 2/5»), cada una con su retroalimentación.
+4. **Explicación** en 3 ideas cortas, una por pantalla, siguiendo el método Singapur: **con objetos → con un dibujo (modelo de barras) → con números**, cada etapa con su dibujo. Para avanzar no hay botón de «Entendido»: hay una **pregunta de comprobación** cuyas opciones incorrectas son errores típicos (por ejemplo «Sí se puede: da 2/5»), cada una con su retroalimentación.
 5. **Práctica** con ejercicios generados *y validados por código*, con **pistas progresivas que se responden**. Todas las pistas, menos la última, traen un mini paso con casilla (por ejemplo «6 × ? = 24» o «¿Se pueden juntar directamente? Sí / No»). La siguiente pista se desbloquea solo al resolver ese paso. Así ya no se puede dar clic a todas las pistas sin leer. **La respuesta final nunca se muestra**: el último paso siempre lo da el alumno.
    - **Ayuda extra (botón «?»)**: se activa solo cuando ya se usaron todas las pistas y la respuesta sigue mal, o cuando un paso se falla 2 veces. Entonces el alumno puede:
      - **preguntarle a Loop (IA)** con sus palabras. La IA recibe la explicación verificada «de otra forma» del curso, las pistas que ya vio y sus intentos fallidos, y debe explicar distinto sin dar el resultado. Si aun así lo revela, el backend lo detecta y lo reemplaza por contenido verificado;
@@ -40,7 +40,7 @@ Bases pedagógicas que usamos:
    - **Respuestas al azar**: con 2 respuestas incorrectas muy rápidas (menos de 5 segundos), Loop le pide ir con calma, sin castigo. Un acierto que llega después de 2 o más intentos fallidos no cuenta para el dominio.
 6. **Detección de errores de razonamiento**, por ejemplo `1/2 + 1/3 = 2/5`, con una retroalimentación que no avergüenza.
 7. **Dominio**: 2 aciertos seguidos con 1 pista como máximo cada uno, y al menos uno sin pistas. Se mide así, no por cantidad de ejercicios.
-8. **Reto final de transferencia**: un problema en contexto (pizza, dinero, camiones, terrenos…), sin pistas al inicio.
+8. **Evaluación final de cada curso**: 5 preguntas sin pistas ni IA: un ejercicio de cada habilidad (más ejercicios de las más avanzadas si el curso tiene pocas), un problema en contexto (pizza, dinero, camiones, terrenos…) y una pregunta de «por qué». Se aprueba con **4 de 5**. Al final se muestra qué salió bien y qué revisar en cada pregunta, **nunca la respuesta correcta**. Si no se aprueba, se refuerzan solo las habilidades falladas y se vuelve a presentar. Si pasan 14 días a mitad de la evaluación, no se interrumpe con el repaso.
 9. **Pausa y regreso**: guarda el punto exacto de la sesión. Si el alumno vuelve tras ≥14 días, empieza con un **repaso** de lo que ya dominaba; si falló algo, hace un refuerzo puntual.
 10. **Empatía**: detecta frustración y ofrece un descanso aunque el chat esté bloqueado. Si el alumno pide la respuesta directa, Loop le propone otra forma de verlo.
 11. **IA con memoria estructurada**: se le manda el contexto relevante, no el historial completo, para ahorrar tokens. Solo se usa en la explicación y en la ayuda extra.
@@ -51,12 +51,12 @@ Bases pedagógicas que usamos:
     - resolver paso a paso;
     - dejar atrás un error de razonamiento;
     - usar la ayuda extra y luego resolver;
-    - reto final sin pistas;
+    - aprobar una evaluación final;
     - recordar en un repaso;
     - tomar un descanso y regresar;
     - animarse a responder.
-14. **Reconocimientos** (`#/reconocimientos`): una **constancia interna por curso** dominado, imprimible o guardable en PDF. Dice claramente **«sin valor curricular»**.
-15. **Barras pictóricas (CPA)** en las pistas y en la retroalimentación. Ejemplo: si el alumno responde `2/5`, ve que su resultado es *más pequeño* que `1/2` y se le pregunta «¿al juntar dos cantidades puede quedar menos que una de ellas?». En los problemas verbales no hay dibujos hasta la resolución acompañada, porque el alumno debe modelar el problema por su cuenta.
+14. **Reconocimientos** (`#/reconocimientos`): una **constancia interna por curso**, cuando se dominan sus habilidades **y se aprueba la evaluación final** (muestra la calificación), imprimible o guardable en PDF. Dice claramente **«sin valor curricular»**.
+15. **Barras pictóricas (CPA)** en las pistas y en la retroalimentación. En todos los cursos, la primera pista dibuja el **modelo de barras** con los números del ejercicio (en raíces, la cuadrícula del número de prueba); al navegador solo llegan proporciones aproximadas, nunca los tamaños exactos. Ejemplo: si el alumno responde `2/5`, ve que su resultado es *más pequeño* que `1/2` y se le pregunta «¿al juntar dos cantidades puede quedar menos que una de ellas?». En los problemas verbales no hay dibujos hasta la resolución acompañada, porque el alumno debe modelar el problema por su cuenta.
 16. **Loop, la mascota guía**: cambia de ánimo según lo que pasa (piensa, celebra, anima tras un error, descansa). No tiene economía de premios, vidas ni castigos por inactividad.
 17. **Panel docente** (`/#docente`, PIN en `.env`): el alumno escribe un **código de grupo** opcional al registrarse. El docente elige un **curso** y ve:
     - un titular de un minuto («El 45% del grupo suma numeradores y denominadores…»);
@@ -112,14 +112,14 @@ backend/
       base.py            # interfaz Course + detector de «la IA reveló la respuesta»
     fractions_engine.py  # fracciones: parseo, generación+validación, errores, pistas, barras
     lesson.py            # textos de fracciones, criterios de dominio, estilos del tutor
-    tutor.py             # flujo para cualquier curso: diagnóstico → explicación → práctica → reto → cierre / repaso
+    tutor.py             # flujo para cualquier curso: diagnóstico → explicación → práctica → evaluación final → cierre / repaso
     auth.py              # cuentas sin correo: scrypt, tokens, código de recuperación, freno a intentos
     achievements.py      # logros de razonamiento y constancias internas
     teacher.py           # panel docente: errores agrupados por curso, sugerencias de clase, grupo demo simulado
     db.py                # SQLite: alumnos, tokens, sesiones, intentos, dominio, eventos, uso de IA
     ai/                  # proveedor intercambiable: mock ($0) | claude
     main.py              # API FastAPI
-  tests/                 # 119 pruebas (contenido de cursos, motores, flujo, cuentas, ayuda extra, logros, panel docente)
+  tests/                 # 182 pruebas (contenido de cursos, motores, flujo, cuentas, ayuda extra, logros, panel docente)
 frontend/                # React + Vite, sin librerías de UI (ligero)
   src/components/AuthScreen.jsx        # entrar / crear cuenta / recuperar
   src/components/CoursesPage.jsx       # catálogo de cursos (+ CourseCover.jsx: portadas SVG)
@@ -187,6 +187,7 @@ Con `THINKLOOP_DEMO=1` aparece «Demo: simular regreso» al pausar o al terminar
 | POST | `/api/sessions/{sid}/answer` | `{answer}` o `{dont_know: true}` |
 | POST | `/api/sessions/{sid}/hint` | siguiente pista |
 | POST | `/api/sessions/{sid}/check` | `{option}` pregunta de comprobación de la explicación |
+| POST | `/api/sessions/{sid}/exam` | `{option}` pregunta de «por qué» de la evaluación final |
 | POST | `/api/sessions/{sid}/predict` | `{choice: "mayor"\|"menor"}` predicción antes de calcular |
 | POST | `/api/sessions/{sid}/step` | `{values: [...]}` responder el mini paso de la pista |
 | POST | `/api/sessions/{sid}/message` | pregunta a Loop (en la explicación o en la ayuda extra) |
@@ -222,7 +223,7 @@ Las dejamos fuera para no sobreconstruir en una semana. Se pueden mencionar en e
 | Ejercicios generados por IA | Ya existen validadores (`validate_exercise` y las pruebas de contenido). Habría que verificar cada ejercicio con código (por ejemplo SymPy) antes de mostrarlo. |
 | **Confirmación por correo** | Implica guardar correos de menores y depender de un servicio de envío. Por ahora basta el código de recuperación. |
 | **Presupuesto diario de IA por alumno** (modos 1, 2 y 3 del documento de acceso gratuito) | La base ya existe: la IA solo actúa en la ayuda extra y `ai_usage` registra los tokens. Falta medir sesiones reales antes de fijar un límite. |
-| Barras o material visual para los cursos nuevos | Hoy solo fracciones tiene CPA. Para sumas y restas convendría usar bloques de base 10. |
+| Que el alumno dibuje su propio modelo de barras | Hoy el modelo lo dibuja Loop en la explicación y en la primera pista. En los problemas con texto, el siguiente paso sería que el alumno elija o arme el modelo antes de calcular. |
 | Tutor por voz, más cursos (restar fracciones, porcentajes, ecuaciones con negativos…) | Siguiente paso después de validar los actuales con la profesora. |
 
 - Licencia de código abierto (por decidir).

@@ -91,3 +91,27 @@ def solve_step(client, session):
     r = client.post(f"/api/sessions/{session}/step", json={"values": vals})
     assert r.status_code == 200, r.text
     return r.json()
+
+
+def exam_answer(client, session, v, ok=True):
+    """Responde la pregunta actual de la evaluación final, bien o mal («No lo sé»)."""
+    if v["exam"]["kind"] == "concepto":
+        st = state_of(session)
+        item = st["exam"]["items"][st["exam"]["i"]]
+        q = get_course(st["course"]).exam_questions()[item["q"]]
+        opt = q["correct"] if ok else next(k for k in q["options"] if k != q["correct"])
+        r = client.post(f"/api/sessions/{session}/exam", json={"option": opt})
+    elif ok:
+        r = client.post(f"/api/sessions/{session}/answer", json={"answer": correct_answer(v)})
+    else:
+        r = client.post(f"/api/sessions/{session}/answer", json={"dont_know": True})
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def take_exam(client, session, v, wrong=()):
+    """Presenta toda la evaluación final; `wrong` son los números de pregunta (1…) que falla."""
+    assert v["phase"] == "evaluacion", v["phase"]
+    while v["phase"] == "evaluacion":
+        v = exam_answer(client, session, v, ok=v["exam"]["index"] not in wrong)
+    return v

@@ -3,7 +3,8 @@ import { api } from "../api.js";
 import CourseCover, { TONES } from "./CourseCover.jsx";
 import Mascot from "./Mascot.jsx";
 
-// Reconocimientos: una constancia interna por curso dominado. Sin valor curricular.
+// Reconocimientos: una constancia interna por curso dominado y con la evaluación final
+// aprobada. Sin valor curricular.
 export default function CertificatesPage() {
   const [certs, setCerts] = useState(null);
   const [error, setError] = useState("");
@@ -32,12 +33,16 @@ export default function CertificatesPage() {
             {c.earned ? (
               <>
                 <p className="small muted">Obtenida el {fmtDate(c.earned_at)}</p>
+                <p className="small">Evaluación final: {c.exam.score} de {c.exam.total}</p>
                 <a className="secondary button-link" href={`#/constancia/${c.course_id}`}>Ver constancia</a>
               </>
             ) : (
               <>
                 <div className="meter" aria-hidden="true"><div className="meter-fill" style={{ width: `${c.pct}%` }} /></div>
-                <p className="small muted">{c.pct}% · se obtiene al dominar todas sus habilidades</p>
+                <p className="small muted">{c.pct}% · se obtiene al dominar sus habilidades y aprobar la evaluación final</p>
+                {c.exam?.taken > 0 && (
+                  <p className="small">Último intento de la evaluación: {c.exam.score} de {c.exam.total}</p>
+                )}
               </>
             )}
             <p className="tiny muted">Sin valor curricular</p>
@@ -93,6 +98,7 @@ export function CertificateView({ courseId }) {
           <p className="cert-text">por dominar, resolviendo por su cuenta, las habilidades del curso</p>
           <p className="cert-course">{cert.title}</p>
           <ul className="cert-skills">{cert.skills.map((s) => <li key={s}>{s}</li>)}</ul>
+          <p className="cert-text">y aprobar su evaluación final con {cert.exam.score} de {cert.exam.total}</p>
           <div className="cert-foot">
             <span>{fmtDate(cert.earned_at)}</span>
             <Mascot mood="feliz" size={56} showLine={false} />

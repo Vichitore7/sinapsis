@@ -6,7 +6,7 @@ from conftest import register, start
 
 from app.courses import all_courses, get_course
 
-VISUAL_KINDS = {"base10", "columnas", "arreglo", "reparto", "cuadricula", "balanza", "barras"}
+VISUAL_KINDS = {"base10", "columnas", "arreglo", "reparto", "cuadricula", "balanza", "barras", "modelo"}
 
 
 def test_course_starts_with_theory_and_requires_understanding(client):
@@ -56,11 +56,20 @@ def _num(cells):
     return int("".join(x for x in cells if x)) if any(cells) else 0
 
 
+def _drawings(course):
+    """Dibujos de la teoría y de las explicaciones (etapas concreta, pictórica y abstracta)."""
+    out = [c.get("visual") for c in course.data["fundamentos"]["tarjetas"]]
+    for h in course.data.get("habilidades", []):
+        ideas = h.get("explicacion", {}).get("ideas", [])
+        out += [i.get("visual") for i in ideas if isinstance(i, dict)]
+    return [v for v in out if v]
+
+
 @pytest.mark.parametrize("course", all_courses(), ids=lambda c: c.id)
 def test_numbers_inside_the_drawings_are_right(course):
-    """Las cuentas que muestran los dibujos de la teoría también se comprueban."""
-    for c in course.data["fundamentos"]["tarjetas"]:
-        v = c.get("visual") or {}
+    """Las cuentas que muestran los dibujos de la teoría y las explicaciones también se comprueban."""
+    for v in _drawings(course):
+        assert v["kind"] in VISUAL_KINDS, v
         if v.get("kind") == "base10":
             n = v["numero"]
             parts = [int(x) for x in re.findall(r"\d+", v["caption"].split("=", 1)[-1])] if "=" in v["caption"] else []

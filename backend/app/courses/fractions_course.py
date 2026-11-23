@@ -9,7 +9,7 @@ from typing import Optional
 
 from .. import fractions_engine as fe
 from .. import lesson as L
-from .base import Course
+from .base import Course, cpa_stages
 
 
 class FractionsCourse(Course):
@@ -62,7 +62,10 @@ class FractionsCourse(Course):
 
     # ---------- contenido ----------
     def explanation(self, skill):
-        return L.EXPLANATIONS[skill]
+        e = L.EXPLANATIONS[skill]
+        stages = cpa_stages(e["ideas"])
+        return {"title": e["title"], "body": [st["text"] for st in stages], "stages": stages,
+                "why": e["why"], "visual": e.get("visual")}
 
     def check_question(self, skill):
         return L.CHECK_QUESTIONS[skill]

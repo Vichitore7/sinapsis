@@ -28,7 +28,7 @@ export default function ProgressPage() {
           <p className="eyebrow">Tu camino</p>
           <h1>Progreso</h1>
         </div>
-        <p className="muted small page-note">Una habilidad se domina cuando la resuelves por tu cuenta, no por hacer muchos ejercicios.</p>
+        <p className="muted small page-note">Una habilidad se domina cuando la resuelves por tu cuenta, no por hacer muchos ejercicios. Cada curso cierra con una evaluación final.</p>
       </div>
       {started.length === 0 && (
         <section className="card empty">
@@ -57,6 +57,12 @@ export default function ProgressPage() {
                 </li>
               ))}
             </ul>
+            <p className={`small exam-line ${p.exam.passed ? "done" : ""}`}>
+              <span aria-hidden="true">{p.exam.passed ? "★" : "☆"}</span> Evaluación final:{" "}
+              {p.exam.passed ? `aprobada con ${p.exam.score} de ${p.exam.total}`
+                : p.exam.taken ? `${p.exam.score} de ${p.exam.total} en el último intento (necesitas ${p.exam.pass_mark})`
+                : "al terminar las habilidades"}
+            </p>
             {p.errors_overcome.length > 0 && (
               <p className="small overcome-line">💪 Dejaste atrás: {p.errors_overcome.join("; ")}</p>
             )}

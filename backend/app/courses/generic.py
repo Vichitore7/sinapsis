@@ -22,7 +22,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Callable, Optional
 
 from ..fractions_engine import Evaluation, check_step  # noqa: F401  (check_step se reexporta)
-from .base import STEP_PROMPT, Course
+from .base import STEP_PROMPT, Course, cpa_stages, render_visual
 
 NAMES = ["Ana", "Luis", "Sofía", "Diego", "Valeria", "Mateo", "Ximena", "Emiliano", "Regina", "Iker"]
 
@@ -489,7 +489,9 @@ class GenericCourse(Course):
     # ---------- contenido ----------
     def explanation(self, skill):
         e = self._sk[skill]["explicacion"]
-        return {"title": e["titulo"], "body": e["ideas"], "why": e["por_que"], "visual": None}
+        stages = cpa_stages(e["ideas"])
+        return {"title": e["titulo"], "body": [st["text"] for st in stages], "stages": stages,
+                "why": e["por_que"], "visual": None}
 
     def check_question(self, skill):
         c = self._sk[skill]["comprobacion"]
@@ -514,6 +516,13 @@ class GenericCourse(Course):
                 f["options"] = [self._fmt(o, ex) for o in c["opciones"]]
             fields.append(f)
         return {"prompt": self._fmt(paso.get("indicacion", STEP_PROMPT), ex), "fields": fields}
+
+    def hint_visual(self, ex, i):
+        """Modelo de barras (pictórico) con los números del ejercicio y «?» en lo que se busca."""
+        spec = self._sk[ex.skill].get("visual_pista")
+        if not spec or i != spec.get("pista", 0):
+            return None
+        return render_visual({k: v for k, v in spec.items() if k != "pista"}, ex.vars)
 
     def worked_example(self, ex, rng=None):
         rng = rng or random.Random()

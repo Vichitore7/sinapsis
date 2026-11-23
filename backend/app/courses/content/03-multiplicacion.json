@@ -12,7 +12,7 @@
   "prerrequisitos": [
     "MAT-SUMA"
   ],
-  "evaluacion": "Resolver multiplicaciones sin ayuda, explicar qué significa multiplicar (pregunta de comprobación) y resolver un problema en contexto (reto final).",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de las Fases 3 y 4 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: multiplicar «con apoyo de material concreto, sumas iteradas o arreglos rectangulares» y reconocer la multiplicación como la operación en la que «siempre se suma la misma cantidad». 3º grado: repertorio multiplicativo y multiplicaciones mediante «suma de multiplicaciones parciales».",
     "referencias": [
@@ -36,9 +36,40 @@
       "explicacion": {
         "titulo": "Grupos iguales",
         "ideas": [
-          "3 × 4 significa 4 grupos de 3 (o 3 grupos de 4: da lo mismo).",
-          "Puedes contarlo de 3 en 3: 3, 6, 9, 12.",
-          "Por eso 3 × 4 = 12. Las tablas son atajos para no contar siempre."
+          {
+            "etapa": "concreto",
+            "texto": "Haz 4 montones con 3 fichas cada uno y cuenta todas. 3 × 4 son 4 grupos de 3 (o 3 grupos de 4: da lo mismo).",
+            "visual": {
+              "kind": "arreglo",
+              "filas": 4,
+              "columnas": 3,
+              "caption": "4 grupos de 3 = 12 fichas"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "4 barras iguales de 3, una tras otra. La barra completa es el total.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 3,
+                      "texto": "3",
+                      "repetir": 4
+                    }
+                  ],
+                  "llave": "?"
+                }
+              ],
+              "caption": "4 grupos iguales de 3"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "Cuenta de 3 en 3: 3, 6, 9, 12. Por eso 3 × 4 = 12. Las tablas son atajos para no contar siempre."
+          }
         ],
         "por_que": "Si entiendes que es sumar grupos iguales, aunque olvides una tabla puedes reconstruirla."
       },
@@ -89,6 +120,22 @@
           "texto": "Sigue contando de {a} en {a} hasta completar {b} grupos. Usa tus dedos para no perder la cuenta: el último número que digas es tu resultado."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{a}",
+                "texto": "{a}",
+                "repetir": "{b}"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "{b} grupos iguales de {a}: la barra completa es el resultado."
+      },
       "resolucion": "Contamos {b} grupos de {a}: {cuenta}. Resultado: {res}.",
       "errores": {
         "sumo": {
@@ -116,9 +163,77 @@
       "explicacion": {
         "titulo": "Separar para multiplicar",
         "ideas": [
-          "Para 23 × 4, separa el 23 en 20 + 3.",
-          "Multiplica cada parte: 20 × 4 = 80 y 3 × 4 = 12.",
-          "Suma las partes: 80 + 12 = 92."
+          {
+            "etapa": "concreto",
+            "texto": "4 bolsas con 23 canicas; en cada una hay 2 tubos de 10 y 3 sueltas. Cuenta primero los tubos de las 4 bolsas (8 tubos = 80) y luego las sueltas (12).",
+            "visual": {
+              "kind": "base10",
+              "numero": 23,
+              "caption": "Cada bolsa: 23 = 20 + 3"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "4 barras de 20 y 4 barras de 3. Cada 23 se parte en 20 y 3.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 20,
+                      "texto": "20",
+                      "repetir": 4
+                    },
+                    {
+                      "n": 3,
+                      "texto": "3",
+                      "tono": "b",
+                      "repetir": 4
+                    }
+                  ],
+                  "llave": "?"
+                }
+              ],
+              "caption": "4 × 20 y 4 × 3, juntos"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "20 × 4 = 80 y 3 × 4 = 12. Sumas las partes: 80 + 12 = 92.",
+            "visual": {
+              "kind": "columnas",
+              "encabezados": [
+                "D",
+                "U"
+              ],
+              "filas": [
+                {
+                  "etiqueta": "3 × 4",
+                  "celdas": [
+                    "1",
+                    "2"
+                  ]
+                },
+                {
+                  "etiqueta": "20 × 4",
+                  "celdas": [
+                    "8",
+                    "0"
+                  ]
+                },
+                {
+                  "etiqueta": "",
+                  "celdas": [
+                    "9",
+                    "2"
+                  ],
+                  "tipo": "resultado"
+                }
+              ],
+              "caption": "23 × 4 = 3 × 4 + 20 × 4"
+            }
+          }
         ],
         "por_que": "Separar en decenas y unidades convierte una multiplicación difícil en dos fáciles."
       },
@@ -169,6 +284,22 @@
           "texto": "Suma las dos partes que obtuviste."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{n}",
+                "texto": "{n}",
+                "repetir": "{m}"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "{m} grupos iguales de {n}: la barra completa es el resultado."
+      },
       "resolucion": "{n} = {d}0 + {u}. {u} × {m} = {um} y {d}0 × {m} = {dm0}. Sumamos: {dm0} + {um} = {res}.",
       "errores": {
         "olvido_decena": {
@@ -200,6 +331,7 @@
     }
   ],
   "reto_final": {
+    "uso": "Problemas en contexto de la evaluación final.",
     "habilidad": "mult.una_cifra",
     "historias": [
       "Una caja trae {n} galletas. ¿Cuántas galletas hay en {m} cajas?",
@@ -306,6 +438,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.4 Multiply Whole Numbers.",
         "url": "https://openstax.org/books/prealgebra-2e/pages/1-4-multiply-whole-numbers",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "¿Por qué 7 × 3 da lo mismo que 3 × 7?",
+        "opciones": {
+          "giro": "Porque 7 filas de 3 y 3 filas de 7 son el mismo arreglo, girado",
+          "casual": "Es casualidad: solo pasa con algunos números",
+          "suma": "Porque 7 + 3 = 3 + 7"
+        },
+        "correcta": "giro",
+        "retro": {
+          "casual": "Pasa con todos los números: girar un arreglo no cambia cuántos puntos tiene.",
+          "suma": "Es cierto, pero eso es de la suma. En la multiplicación se cumple porque un arreglo girado tiene los mismos puntos."
+        }
+      },
+      {
+        "pregunta": "Diego dice que 23 × 4 = 20. ¿Qué error cometió?",
+        "opciones": {
+          "decena": "Multiplicó el 2 como si valiera 2, pero en 23 vale 20",
+          "sumo": "Sumó 23 + 4",
+          "bien": "Ninguno: 23 × 4 sí es 20"
+        },
+        "correcta": "decena",
+        "retro": {
+          "sumo": "23 + 4 da 27, no 20. Su 20 sale de 2 × 4 + 3 × 4: trató al 2 como unidades.",
+          "bien": "Estima: 23 × 4 es más que 20 × 4 = 80. Un 20 no puede ser."
+        }
       }
     ]
   }

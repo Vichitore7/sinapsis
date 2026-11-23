@@ -25,7 +25,7 @@ La revisión de la profesora **no es una certificación oficial**. Sí es una re
   "descripcion": "…",
   "portada": {"simbolo": "+", "tono": "naranja"},   // plantilla SVG propia, sin imágenes externas
   "prerrequisitos": [],             // ids de otros cursos
-  "evaluacion": "…",                // cómo sabemos que lo aprendió
+  "evaluacion": "…",                // cómo sabemos que lo aprendió (texto para el catálogo)
   "metadatos": {
     "fuente_curricular": "…",       // programa sintético de la SEP, grado y cita textual del contenido
     "referencias": ["…"],
@@ -42,16 +42,56 @@ La revisión de la profesora **no es una certificación oficial**. Sí es una re
     "fuentes": [{"titulo": "…", "url": "…", "cita": "fragmento breve", "uso": "para qué y con qué licencia"}]
   },
   "habilidades": [ … ],             // en orden de prerrequisito
-  "reto_final": {"habilidad": "…", "historias": ["…{a}…{n1}…"]}
+  "reto_final": {"habilidad": "…", "historias": ["…{a}…{n1}…"]},   // problemas en contexto de la evaluación final
+  "evaluacion_final": {"preguntas": [ {"pregunta": "¿Por qué…?", "opciones": {…}, "correcta": "…", "retro": {…}} ]}
 }
 ```
+
+## Evaluación final
+
+Cada curso termina con una evaluación de **5 preguntas sin pistas ni IA** (`EXAM_SIZE` y `EXAM_PASS` en `lesson.py`):
+
+1. un ejercicio de cada habilidad, de la más fácil a la más difícil (si el curso tiene pocas habilidades, se agregan ejercicios de las más avanzadas);
+2. un problema en contexto, con una de las `historias` de `reto_final`;
+3. una pregunta de «por qué», elegida al azar de `evaluacion_final.preguntas` (al menos 2 por curso, para que cambie si se vuelve a presentar).
+
+Se aprueba con **4 de 5**. Al final, el alumno ve qué salió bien y, en lo que falló, su respuesta y la retroalimentación del error (`retro` del error o de la opción), **nunca la respuesta correcta**. Si no aprueba, se refuerzan solo las habilidades que falló y se vuelve a presentar. La constancia del curso exige aprobarla.
+
+## Método Singapur (CPA)
+
+Cada explicación tiene exactamente 3 ideas, en este orden:
+
+```json
+"ideas": [
+  {"etapa": "concreto",  "texto": "Con objetos que se pueden tocar: bloques, fichas, una balanza…", "visual": {"kind": "base10", "numero": 23, "caption": "23 = 20 + 3"}},
+  {"etapa": "pictorico", "texto": "Con un dibujo: el modelo de barras.", "visual": {"kind": "modelo", "filas": […]}},
+  {"etapa": "abstracto", "texto": "Con números: la cuenta."}
+]
+```
+
+La pantalla ya dice «Con objetos», «Con un dibujo» o «Con números»: el texto no lo repite. La etapa pictórica **siempre** lleva dibujo.
+
+### Modelo de barras (`"kind": "modelo"`)
+
+```json
+{"kind": "modelo", "caption": "x + 5 = 12",
+ "filas": [{"total": 12, "llave": "12",
+            "segmentos": [{"resto": true, "texto": "x", "hueco": true},
+                          {"n": 5, "texto": "5", "tono": "b"}]}]}
+```
+
+- Cada fila es una barra; `etiqueta` (opcional) va a su izquierda y `llave` debajo (cuánto vale la barra completa, o «?»).
+- Cada segmento lleva su tamaño real `n`, o `resto: true` para «lo que falta para llegar a `total`». `repetir` dibuja grupos iguales; `hueco` lo dibuja punteado (lo que no se conoce); `tono` puede ser `a`, `b` o `warn`.
+- Al navegador solo llegan proporciones aproximadas (veinteavos de la barra), nunca los tamaños exactos.
+
+En cada habilidad, `visual_pista` es el modelo que acompaña a la primera pista, con las variables del ejercicio (`"{a}"`, `"{b}"`…). En `n`, `total` y `repetir` sí se pueden usar variables secretas (solo dan el tamaño aproximado); **en `texto`, `llave`, `etiqueta` y `caption` no**, y las pruebas lo comprueban.
 
 Reglas de la teoría:
 - de 4 a 6 tarjetas, una idea cada una;
 - al menos una tarjeta explica **cómo saber que está bien** sin ayuda (comprobar con la operación inversa, estimar…);
 - la pregunta final es de **por qué**, no de cómo;
 - texto **propio**: las fuentes se citan, no se copian;
-- dibujos disponibles: `base10`, `columnas`, `arreglo`, `reparto`, `cuadricula`, `balanza` y `barras` (fracciones). Las pruebas comprueban también **las cuentas dentro de los dibujos**.
+- dibujos disponibles: `base10`, `columnas`, `arreglo`, `reparto`, `cuadricula`, `balanza`, `modelo` (barras de Singapur) y `barras` (fracciones). Las pruebas comprueban también **las cuentas dentro de los dibujos**, en la teoría y en las explicaciones.
 
 ## Campos de cada habilidad
 
@@ -59,7 +99,8 @@ Reglas de la teoría:
 |---|---|
 | `id`, `nombre`, `objetivo` | Identificación y objetivo de aprendizaje. |
 | `tipo` | Qué código genera y califica el ejercicio (ver la tabla de tipos). |
-| `explicacion.ideas` | **Máximo 3 ideas cortas**, una por pantalla. |
+| `explicacion.ideas` | **3 ideas cortas**, una por pantalla: concreto, pictórico y abstracto (ver «Método Singapur»). |
+| `visual_pista` | Modelo de barras de la primera pista, con los números del ejercicio. |
 | `explicacion.por_que` | Por qué funciona; se muestra antes de la pregunta. |
 | `comprobacion` | Pregunta con 3 opciones. Las incorrectas son errores típicos y **cada una trae su retroalimentación** (`retro`). |
 | `otra_forma` | Explicación verificada con otra representación (dinero, cajas, balanza…). Es la base que adapta la IA en la ayuda extra. |
@@ -96,7 +137,7 @@ Un campo de opciones lleva `"opciones": ["Sí", "No"]` y `"acepta": ["No"]`.
 | `alg_ec_suma` | x + a = b | sumar en vez de restar |
 | `alg_ec_dos_pasos` | ax + b = c | dividir antes de restar; sumar b; restar a; no dividir |
 
-Agregar un curso con estos tipos solo requiere un JSON nuevo. Un tipo nuevo requiere programar su generador, su respuesta y la detección de errores en `generic.py`, y agregar su cálculo independiente en `tests/test_courses.py`.
+Agregar un curso con estos tipos solo requiere un JSON nuevo (con sus etapas CPA y al menos 2 preguntas de `evaluacion_final`). Un tipo nuevo requiere programar su generador, su respuesta y la detección de errores en `generic.py`, y agregar su cálculo independiente en `tests/test_courses.py`.
 
 ## Lo que se verifica automáticamente (`tests/test_courses.py`)
 

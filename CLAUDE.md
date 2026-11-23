@@ -8,14 +8,16 @@ Repositorio: https://github.com/Vichitore7/sinapsis (público)
 
 Ya funciona de punta a punta:
 - **7 cursos**, de lo básico a lo avanzado: Sumas → Restas → Multiplicación → División → Fracciones → Álgebra inicial → Potencias y raíces.
-- **Flujo de cada curso**: teoría (fundamentos) → diagnóstico → explicación con pregunta de comprobación → práctica con pistas → reto final → cierre. Si el alumno regresa después de 14 días o más, empieza con un repaso.
+- **Flujo de cada curso**: teoría (fundamentos) → diagnóstico → explicación con pregunta de comprobación → práctica con pistas → **evaluación final** → cierre. Si el alumno regresa después de 14 días o más, empieza con un repaso (salvo a mitad de la evaluación).
+- **Método Singapur (CPA)**: cada explicación tiene 3 etapas: con objetos → con un dibujo (modelo de barras) → con números. La primera pista de la práctica dibuja el modelo de barras del ejercicio con «?» en lo que se busca.
+- **Evaluación final**: 5 preguntas sin pistas ni IA (un ejercicio por habilidad, un problema en contexto y una pregunta de «por qué»). Se aprueba con 4 de 5. Si no, se refuerzan solo las habilidades falladas y se vuelve a presentar. Al final se muestra qué salió bien y qué revisar, nunca la respuesta.
 - **Pistas progresivas**: para ver la siguiente hay que responder el mini paso de la actual, y **la respuesta final nunca se muestra**.
 - **Ayuda extra (botón «?»)**: se activa solo cuando ya se usaron todas las pistas o un paso se falló 2 veces. Ofrece preguntarle a Loop (IA), ver un ejemplo con otros números o cambiar de ejercicio.
 - **Cuentas sin correo**: apodo y contraseña, más un código de recuperación que se muestra una vez.
-- **Logros** que premian razonamiento, no cantidad, y **constancias por curso** «sin valor curricular».
+- **Logros** que premian razonamiento, no cantidad, y **constancias por curso** «sin valor curricular», que exigen aprobar la evaluación final.
 - **Panel docente** en `#docente` (PIN 1234 en la demo), con reporte por curso.
 - **Diseño**: naranja y blanco con tipografía Nunito. Menú lateral, que se oculta dentro de una lección, y avatar arriba a la derecha.
-- **141 pruebas** que pasan.
+- **182 pruebas** que pasan.
 
 El contenido está en estado **«verificación matemática»**: las cuentas se revisaron y el grado de cada curso se cotejó con los programas sintéticos de la SEP. **Falta la revisión pedagógica de la profesora.** Todo lo redactó el equipo con apoyo de IA.
 
@@ -23,8 +25,9 @@ El contenido está en estado **«verificación matemática»**: las cuentas se r
 
 - [ ] **Correcciones que Victor encontró al probar** («algunas cositas que no me gustaron»). Todavía no las ha dicho: preguntar al retomar.
 - [ ] Agregar a Gera, Zulu, Samuel y Katia como colaboradores en GitHub. Victor lo iba a hacer; hacen falta para aprobar los pull requests a `main`.
-- [ ] Revisión pedagógica de la profesora de secundaria y preparatoria: teoría, explicaciones, pistas, errores típicos y sugerencias del panel docente. Al terminar, llenar `revisado_por` y `fecha_revision` y cambiar `estado` a `revision_pedagogica` en cada JSON.
-- [ ] Material visual para los cursos nuevos en la práctica. Hoy solo fracciones tiene barras; los demás solo tienen dibujos en la teoría.
+- [ ] Revisión pedagógica de la profesora de secundaria y preparatoria: teoría, explicaciones (etapas CPA), pistas, modelos de barras, preguntas de la evaluación final, errores típicos y sugerencias del panel docente. Al terminar, llenar `revisado_por` y `fecha_revision` y cambiar `estado` a `revision_pedagogica` en cada JSON.
+- [ ] Decidir si los segmentos desconocidos del modelo de barras de las pistas se dibujan a escala (hoy sí, aproximados a 1/20): si la x mide igual que un número conocido, se nota en el dibujo.
+- [ ] Siguiente paso de Singapur: que el alumno elija o arme el modelo de barras de los problemas con texto antes de calcular.
 - [ ] Decidir el modelo de IA. Propuesta del equipo: Claude Haiku 5.5 por defecto. Hoy `.env` usa `mock`, y `claude-opus-5-5` si se cambia a `claude`.
 - [ ] Presupuesto diario de IA por alumno (los modos 1, 2 y 3 del documento de acceso gratuito). Primero hay que medir el consumo real con `ai_usage`.
 - [ ] Cuenta docente real (hoy es un PIN compartido) y consentimiento de madres, padres o tutores para menores.
@@ -69,8 +72,8 @@ backend/app/
   courses/content/*.json  BIBLIOTECA CURRICULAR: un JSON por curso (estándar en docs/estandar-de-leccion.md)
   courses/generic.py      motor de sumas, restas, multiplicación, división, raíces y álgebra (tipos en TIPOS)
   courses/fractions_course.py  adapta fractions_engine.py y lesson.py a la interfaz Course
-  courses/base.py         interfaz Course, theory() y leaks_answer() (detecta si la IA reveló la respuesta)
-  tutor.py                máquina de estados de la sesión, igual para todos los cursos
+  courses/base.py         interfaz Course, theory(), etapas CPA, modelo de barras (bar_model) y leaks_answer()
+  tutor.py                máquina de estados de la sesión, igual para todos los cursos (incluye la evaluación final)
   auth.py                 scrypt, tokens (guardados solo como hash), código de recuperación, freno de intentos
   achievements.py         logros y constancias
   teacher.py              panel docente (errores agrupados por curso, grupo demo SIMULADO)
@@ -79,7 +82,7 @@ backend/app/
 frontend/src/
   App.jsx                 rutas con el hash (#/cursos, #/curso/ID, #/progreso, #/logros, #/reconocimientos, #/constancia/ID, #docente)
   components/LessonPage.jsx  lección: temario, teoría, pasos, botón «?», ayuda extra, ventana de teoría
-  components/MathVisual.jsx  dibujos: base10, columnas, arreglo, reparto, cuadricula, balanza (+ FractionVisual)
+  components/MathVisual.jsx  dibujos: base10, columnas, arreglo, reparto, cuadricula, balanza, modelo (+ FractionVisual)
 ```
 
 Todas las acciones de una sesión devuelven la misma «vista» (`tutor._view`): fase, mensajes, ejercicio, pistas, acciones permitidas, `help` y progreso. El frontend solo pinta esa vista.

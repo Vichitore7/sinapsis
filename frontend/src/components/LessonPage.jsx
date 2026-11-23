@@ -7,7 +7,7 @@ import CourseCover from "./CourseCover.jsx";
 const KIND_LABEL = {
   hint: "Pista", example: "Ejemplo parecido", empathy: "", milestone: "¡Logro!",
   feedback_ok: "", feedback_wrong: "", warning: "", ai: "Loop", summary: "Resumen",
-  slowdown: "Con calma",
+  slowdown: "Con calma", exam_result: "Evaluación final",
 };
 
 // Pantalla de lección: temario del curso a la izquierda, conversación y ejercicio a la derecha.
@@ -106,6 +106,7 @@ function Lesson({ view, setView, course, courseId, student, setStudent }) {
               </li>
             );
           })}
+          <ExamStep view={view} />
         </ol>
         {view.progress.errors_overcome.length > 0 && (
           <div className="overcome-box">
@@ -137,7 +138,8 @@ function Lesson({ view, setView, course, courseId, student, setStudent }) {
           <div className="lesson-title">
             <p className="eyebrow">{view.phase_label}</p>
             <h1 id="lesson-title">
-              {view.skill_name || (view.phase === "fundamentos" ? "Teoría del curso"
+              {view.phase === "evaluacion" ? "Evaluación final"
+                : view.skill_name || (view.phase === "fundamentos" ? "Teoría del curso"
                 : view.phase === "cierre" ? "¡Curso terminado!" : view.course.title)}
             </h1>
           </div>
@@ -147,8 +149,9 @@ function Lesson({ view, setView, course, courseId, student, setStudent }) {
           {(view.history || []).map((m, i) => (
             <div key={i} className={`bubble ${m.role} ${m.kind}`}>
               {KIND_LABEL[m.kind] && <span className="bubble-label">{KIND_LABEL[m.kind]}</span>}
-              {m.text}
+              {!m.exam && m.text}
               {m.visual && <MathVisual visual={m.visual} />}
+              {m.exam && <ExamResult exam={m.exam} />}
             </div>
           ))}
         </div>
@@ -170,6 +173,32 @@ function Lesson({ view, setView, course, courseId, student, setStudent }) {
               <Explanation key={view.skill} exp={view.explanation} busy={busy}
                            onCheck={(opt) => run(() => api.check(sid, opt))}
                            onAsk={() => setHelpOpen(true)} />
+            )}
+
+            {view.exam && (
+              <div className="exam-bar" role="status">
+                <strong>Pregunta {view.exam.index} de {view.exam.total}</strong>
+                <div className="dots" aria-hidden="true">
+                  {Array.from({ length: view.exam.total }).map((_, k) => (
+                    <span key={k} className={k < view.exam.index ? "on" : ""} />
+                  ))}
+                </div>
+                <span className="small muted">Sin pistas ni ayuda · apruebas con {view.exam.pass_mark} de {view.exam.total}</span>
+              </div>
+            )}
+
+            {view.exam?.question && (
+              <div className="exercise">
+                <div className="check">
+                  <p className="predict-q"><strong>¿Por qué?</strong> {view.exam.question.question}</p>
+                  <div className="choices">
+                    {view.exam.question.options.map((o) => (
+                      <button key={o.id} className="secondary choice" disabled={busy}
+                              onClick={() => run(() => api.examOption(sid, o.id))}>{o.text}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             )}
 
             {view.exercise && view.prediction && (
@@ -201,7 +230,7 @@ function Lesson({ view, setView, course, courseId, student, setStudent }) {
                            autoComplete="off" aria-describedby="prompt" maxLength={40}
                            onChange={(e) => setAnswer(e.target.value)} placeholder="Tu respuesta" />
                     <button className="primary" disabled={busy || !answer.trim()}>Comprobar</button>
-                    {view.phase !== "diagnostico" && (
+                    {!["diagnostico", "evaluacion"].includes(view.phase) && (
                       <button type="button" className={`help-btn ${view.help?.ai ? "on" : ""}`}
                               aria-expanded={helpOpen} aria-controls="help-panel" onClick={onQuestion}
                               title={view.help?.ai ? "Ayuda extra de Loop" : view.help?.locked_reason}
@@ -398,17 +427,24 @@ function HelpPanel({ view, busy, stuck, onAsk, onExample, onSkip, onClose }) {
 }
 
 // Explicación en pantallas cortas: una idea a la vez y, al final, una pregunta para comprobar.
+// Método Singapur (CPA): con objetos → con un dibujo (modelo de barras) → con números.
 function Explanation({ exp, busy, onCheck, onAsk }) {
   const [i, setI] = useState(0);
   const last = exp.body.length - 1;
   const atCheck = i > last;
+  const stage = exp.stages?.[Math.min(i, last)];
+  const visual = stage?.visual || (stage?.stage ? null : exp.visual);
   return (
     <div className="explanation">
       <h2>{exp.title}</h2>
-      <MathVisual visual={exp.visual} />
+      {(!stage?.stage || atCheck) && <MathVisual visual={exp.visual} />}
       {!atCheck ? (
         <>
+          {stage?.label && (
+            <p className="cpa-stage"><span className="cpa-n" aria-hidden="true">{i + 1}</span>{stage.label}</p>
+          )}
           <p className="idea" aria-live="polite">{exp.body[i]}</p>
+          {stage?.stage && <MathVisual visual={visual} />}
           <div className="dots" aria-label={`Idea ${i + 1} de ${exp.body.length}`}>
             {exp.body.map((_, k) => <span key={k} className={k <= i ? "on" : ""} />)}
           </div>
@@ -430,6 +466,44 @@ function Explanation({ exp, busy, onCheck, onAsk }) {
           <button className="link" onClick={() => setI(0)}>Volver a leer las ideas</button>
         </div>
       )}
+    </div>
+  );
+}
+
+// Paso final del temario: la evaluación del curso.
+function ExamStep({ view }) {
+  const exam = view.progress.exam;
+  const current = view.phase === "evaluacion";
+  const status = exam?.passed ? `Aprobada (${exam.score} de ${exam.total})`
+    : current ? `Pregunta ${view.exam?.index ?? 1} de ${view.exam?.total ?? exam?.size}`
+    : exam?.taken ? `Intento ${exam.taken}: ${exam.score} de ${exam.total}` : "Al terminar las habilidades";
+  return (
+    <li className={`exam ${exam?.passed ? "done" : ""} ${current ? "current" : ""}`}
+        aria-current={current ? "step" : undefined}>
+      <span className="node" aria-hidden="true">{exam?.passed ? "✓" : "★"}</span>
+      <div className="skill-info">
+        <span className="skill-name">Evaluación final</span>
+        <span className="muted small">{status}</span>
+      </div>
+    </li>
+  );
+}
+
+// Resultado de la evaluación: qué salió bien y qué revisar. Nunca la respuesta correcta.
+function ExamResult({ exam }) {
+  return (
+    <div className="exam-result">
+      <p className="exam-score">{exam.score} de {exam.total} {exam.passed ? "· ¡Aprobada!" : `· necesitas ${exam.pass_mark}`}</p>
+      <ol>
+        {exam.items.map((it, k) => (
+          <li key={k} className={it.ok ? "ok" : "bad"}>
+            <span className="exam-q">{it.ok ? "✓" : "✗"} {it.label}</span>
+            {it.prompt && <span className="small muted"> · {it.prompt}</span>}
+            {!it.ok && it.answer && <div className="small">Tu respuesta: {it.answer}</div>}
+            {!it.ok && it.note && <div className="small">{it.note}</div>}
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

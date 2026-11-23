@@ -58,6 +58,7 @@ export const api = {
   course: (courseId) => request("GET", `/courses/${encodeURIComponent(courseId)}`),
   theory: (sid, option) => request("POST", `/sessions/${sid}/theory`, { option }),
   check: (sid, option) => request("POST", `/sessions/${sid}/check`, { option }),
+  examOption: (sid, option) => request("POST", `/sessions/${sid}/exam`, { option }),
   predict: (sid, choice) => request("POST", `/sessions/${sid}/predict`, { choice }),
   step: (sid, values) => request("POST", `/sessions/${sid}/step`, { values }),
   answer: (sid, answer) => request("POST", `/sessions/${sid}/answer`, { answer }),

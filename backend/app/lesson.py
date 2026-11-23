@@ -24,37 +24,69 @@ FAST_WRONG_LIMIT = 2
 # Con 2 o más intentos fallidos en el mismo ejercicio, el acierto no cuenta para el dominio
 GUESS_ATTEMPTS = 2
 
+# Evaluación final de cada curso: sin pistas ni IA. Un ejercicio por habilidad, un
+# problema en contexto y una pregunta de «por qué»; si faltan, más ejercicios.
+EXAM_SIZE = 5
+EXAM_PASS = 4   # aciertos para aprobar (80 %)
+
 # Explicaciones cortas: una idea por pantalla (el alumno avanza con «Siguiente»)
+# Cada explicación sigue el método Singapur (CPA): primero con objetos (concreto),
+# luego con un dibujo (pictórico: barras) y al final con números (abstracto).
 EXPLANATIONS = {
     "equivalencia": {
         "title": "Fracciones equivalentes",
-        "body": [
-            "El denominador dice en cuántos pedazos partes. El numerador, cuántos tomas.",
-            "Si partes cada pedazo en 2, tienes el doble de pedazos, pero más chicos.",
-            "La cantidad no cambia: 1/2 = 2/4 = 3/6.",
+        "ideas": [
+            {"etapa": "concreto",
+             "texto": "Dobla una tira de papel a la mitad y colorea una parte: es 1/2. Vuélvela a "
+                      "doblar: ahora ves 2 de 4 partes coloreadas, y lo coloreado no cambió."},
+            {"etapa": "pictorico",
+             "texto": "1/2 y 2/4 ocupan exactamente lo mismo. Hay el doble de pedazos, "
+                      "pero cada uno es la mitad de grande.",
+             "visual": {"kind": "barras", "caption": "1/2 y 2/4: la misma cantidad.",
+                        "bars": [{"num": 1, "den": 2, "label": "1/2", "tone": "a"},
+                                 {"num": 2, "den": 4, "label": "2/4", "tone": "b", "group": 2}]}},
+            {"etapa": "abstracto",
+             "texto": "Si multiplicas arriba y abajo por el mismo número, la cantidad "
+                      "no cambia: 1/2 = 2/4 = 3/6."},
         ],
         "why": "Es la llave para sumar fracciones con distinto denominador.",
-        "visual": {"kind": "equivalencia", "a": 1, "b": 2, "target_den": 4},
+        "visual": None,
     },
     "suma_mismo_den": {
         "title": "Sumar con pedazos iguales",
-        "body": [
-            "Mismo denominador = pedazos del mismo tamaño.",
-            "Solo cuentas pedazos: 2/7 + 3/7 = 5/7.",
-            "El 7 no se suma: es el tamaño del pedazo.",
+        "ideas": [
+            {"etapa": "concreto",
+             "texto": "Una pizza en 7 rebanadas iguales. Tomas 2 y luego 3: tienes 5 rebanadas, "
+                      "y siguen siendo séptimos (del mismo tamaño)."},
+            {"etapa": "pictorico",
+             "texto": "2 pedazos de séptimo más 3 pedazos de séptimo. Solo cuentas "
+                      "pedazos; la barra sigue partida en 7.",
+             "visual": {"kind": "suma", "a": 2, "b": 7, "c": 3, "d": 7}},
+            {"etapa": "abstracto",
+             "texto": "2/7 + 3/7 = 5/7. El 7 no se suma: es el tamaño del pedazo."},
         ],
         "why": "Juntar séptimos no los convierte en catorceavos.",
-        "visual": {"kind": "suma", "a": 2, "b": 7, "c": 3, "d": 7},
+        "visual": None,
     },
     "suma_distinto_den": {
         "title": "Sumar con pedazos distintos",
-        "body": [
-            "Medios y tercios son pedazos de distinto tamaño: no se juntan así nomás.",
-            "Busca un tamaño común: un número en la tabla del 2 y del 3 → el 6.",
-            "1/2 = 3/6 y 1/3 = 2/6. Ahora sí: 3/6 + 2/6 = 5/6.",
+        "ideas": [
+            {"etapa": "concreto",
+             "texto": "Medio chocolate y un tercio de chocolate son pedazos de distinto tamaño: "
+                      "no puedes decir cuánto tienes hasta partirlos en pedazos iguales."},
+            {"etapa": "pictorico",
+             "texto": "Parte las dos en sextos. 1/2 son 3 sextos y 1/3 son 2 sextos.",
+             "visual": {"kind": "barras", "caption": "1/2 = 3/6 y 1/3 = 2/6.",
+                        "bars": [{"num": 1, "den": 2, "label": "1/2", "tone": "a"},
+                                 {"num": 3, "den": 6, "label": "3/6", "tone": "a", "group": 3},
+                                 {"num": 1, "den": 3, "label": "1/3", "tone": "b"},
+                                 {"num": 2, "den": 6, "label": "2/6", "tone": "b", "group": 2}]}},
+            {"etapa": "abstracto",
+             "texto": "Busca un número en la tabla del 2 y del 3 → el 6. "
+                      "1/2 = 3/6 y 1/3 = 2/6. Ahora sí: 3/6 + 2/6 = 5/6."},
         ],
         "why": "Primero igualas el tamaño de los pedazos, luego cuentas.",
-        "visual": {"kind": "suma", "a": 1, "b": 2, "c": 1, "d": 3},
+        "visual": None,
     },
 }
 

@@ -277,6 +277,12 @@ def check(session_id: int, body: CheckIn, student: dict = Depends(current_studen
     return _run(tutor.check_explanation, session_id, body.option, student_id=student["id"])
 
 
+@app.post("/api/sessions/{session_id}/exam")
+def exam_option(session_id: int, body: CheckIn, student: dict = Depends(current_student)):
+    """Pregunta de «por qué» de la evaluación final."""
+    return _run(tutor.exam_option, session_id, body.option, student_id=student["id"])
+
+
 @app.post("/api/sessions/{session_id}/predict")
 def predict(session_id: int, body: PredictIn, student: dict = Depends(current_student)):
     """Estimación antes de calcular: «mayor» o «menor»."""

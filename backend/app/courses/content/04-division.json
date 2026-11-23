@@ -12,7 +12,7 @@
   "prerrequisitos": [
     "MAT-MULT"
   ],
-  "evaluacion": "Resolver divisiones sin ayuda, explicar qué significa el residuo (pregunta de comprobación) y resolver un problema de reparto (reto final).",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de la Fase 4 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 3º grado: divisiones de reparto y agrupamiento, «en particular con la multiplicación». 4º grado: «reconoce al cociente y al residuo como resultado de una división».",
     "referencias": [
@@ -35,9 +35,41 @@
       "explicacion": {
         "titulo": "Repartir en partes iguales",
         "ideas": [
-          "12 ÷ 3 pregunta: si reparto 12 entre 3, ¿cuánto le toca a cada uno?",
-          "También pregunta: ¿qué número por 3 da 12?",
-          "Como 3 × 4 = 12, entonces 12 ÷ 3 = 4."
+          {
+            "etapa": "concreto",
+            "texto": "Reparte 12 fichas entre 3 niños, una a una, hasta que se acaben. Cuenta cuántas tiene cada uno.",
+            "visual": {
+              "kind": "reparto",
+              "total": 12,
+              "grupos": 3,
+              "caption": "12 entre 3: le tocan 4 y sobran 0"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Una barra de 12 partida en 3 partes iguales. Lo que mide cada parte es la respuesta.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 4,
+                      "texto": "?",
+                      "repetir": 3,
+                      "hueco": true
+                    }
+                  ],
+                  "llave": "12"
+                }
+              ],
+              "caption": "12 en 3 partes iguales"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "¿qué número por 3 da 12? Como 3 × 4 = 12, entonces 12 ÷ 3 = 4."
+          }
         ],
         "por_que": "La división es la multiplicación al revés: si te sabes las tablas, ya sabes dividir."
       },
@@ -92,6 +124,23 @@
           "texto": "Si te pasaste, prueba con un número más chico; si te faltó, con uno más grande. Busca el que multiplicado por {d} dé exactamente {n}."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{q}",
+                "texto": "?",
+                "repetir": "{d}",
+                "hueco": true
+              }
+            ],
+            "llave": "{n}"
+          }
+        ],
+        "caption": "{n} repartido en {d} partes iguales: ¿cuánto mide cada parte?"
+      },
       "resolucion": "Buscamos qué número por {d} da {n}: {d} × {res} = {n}. Entonces {n} ÷ {d} = {res}.",
       "errores": {
         "multiplico": {
@@ -119,9 +168,45 @@
       "explicacion": {
         "titulo": "Cuando sobra: el residuo",
         "ideas": [
-          "No siempre se reparte exacto: 17 ÷ 5 → a cada uno le tocan 3 y sobran 2.",
-          "El 3 es el cociente y el 2 es el residuo.",
-          "El residuo siempre es menor que el divisor: si sobraran 5 o más, ¡alcanzaría para otra ronda!"
+          {
+            "etapa": "concreto",
+            "texto": "Reparte 17 dulces entre 5 niños. A cada uno le tocan 3 y sobran 2, que ya no alcanzan para otra vuelta.",
+            "visual": {
+              "kind": "reparto",
+              "total": 17,
+              "grupos": 5,
+              "caption": "17 entre 5: le tocan 3 y sobran 2"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "La barra de 17 tiene 5 partes iguales de 3 y un pedacito que sobra. El 3 es el cociente y el 2, el residuo.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "segmentos": [
+                    {
+                      "n": 3,
+                      "texto": "3",
+                      "repetir": 5
+                    },
+                    {
+                      "n": 2,
+                      "texto": "2",
+                      "tono": "warn"
+                    }
+                  ],
+                  "llave": "17"
+                }
+              ],
+              "caption": "5 partes de 3 y sobran 2"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "17 ÷ 5 = 3 r 2, porque 5 × 3 = 15 y 15 + 2 = 17. El residuo siempre es menor que el divisor: si sobraran 5 o más, ¡alcanzaría para otra vuelta!"
+          }
         ],
         "por_que": "El residuo dice lo que no se pudo repartir en partes iguales."
       },
@@ -172,6 +257,29 @@
           "texto": "¿En qué lugar de la tabla está ese número? Ese lugar es el cociente. Lo que le falta para llegar a {n} es el residuo."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{q}",
+                "texto": "?",
+                "repetir": "{d}",
+                "hueco": true
+              },
+              {
+                "n": "{r}",
+                "texto": "?",
+                "tono": "warn",
+                "hueco": true
+              }
+            ],
+            "llave": "{n}"
+          }
+        ],
+        "caption": "{d} partes iguales y un pedazo que sobra, más chico que una parte."
+      },
       "resolucion": "En la tabla del {d}, el último que no pasa de {n} es {dq} = {d} × {q}. Sobran {n} − {dq} = {r}. Resultado: {res}.",
       "errores": {
         "residuo_grande": {
@@ -198,6 +306,7 @@
     }
   ],
   "reto_final": {
+    "uso": "Problemas en contexto de la evaluación final.",
     "habilidad": "div.residuo",
     "historias": [
       "Hay {n} dulces para repartir entre {d} niños en partes iguales. ¿Cuántos le tocan a cada uno y cuántos sobran?",
@@ -270,6 +379,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección 1.5 Divide Whole Numbers.",
         "url": "https://openstax.org/books/prealgebra-2e/pages/1-5-divide-whole-numbers",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "En 17 ÷ 5 = 3 r 2, ¿por qué el residuo no puede ser 5 o más?",
+        "opciones": {
+          "vuelta": "Porque con 5 o más alcanzaría para darle uno más a cada quien",
+          "regla": "Porque el residuo siempre es 2",
+          "cociente": "Porque tiene que ser menor que el cociente"
+        },
+        "correcta": "vuelta",
+        "retro": {
+          "regla": "Depende de la división: en 19 ÷ 5 sobran 4. Lo que nunca pasa es que sobre lo mismo que el divisor o más.",
+          "cociente": "Se compara con el divisor, no con el cociente: en 13 ÷ 5 = 2 r 3 el residuo es mayor que el cociente y está bien."
+        }
+      },
+      {
+        "pregunta": "¿Cómo compruebas que 29 ÷ 4 = 7 r 1?",
+        "opciones": {
+          "multiplica": "Calculando 4 × 7 + 1: si da 29, está bien",
+          "suma": "Sumando 7 + 1 + 4",
+          "resta": "Restando 29 − 4"
+        },
+        "correcta": "multiplica",
+        "retro": {
+          "suma": "Así no se comprueba. Una división se comprueba con la multiplicación: 4 × 7 = 28 y 28 + 1 = 29.",
+          "resta": "Eso solo quita un grupo. Para comprobar todo el reparto: 4 × 7 + 1 debe dar 29."
+        }
       }
     ]
   }

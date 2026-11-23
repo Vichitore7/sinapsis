@@ -111,7 +111,7 @@ function Report({ report, onRefresh, busy }) {
         </div>
         <p className="headline-text">{r.headline}</p>
         <p className="muted small">
-          {r.students_total} alumnos · {r.students_active} con actividad · {r.completed} terminaron la lección
+          {r.students_total} alumnos · {r.students_active} con actividad · {r.completed} terminaron el curso · {r.exam_passed} aprobaron la evaluación final
         </p>
       </section>
 
@@ -172,7 +172,7 @@ function Report({ report, onRefresh, busy }) {
           <div className="table-wrap">
             <table>
               <thead>
-                <tr><th>Alumno</th><th>Va en</th><th>Dominadas</th><th>Aciertos</th><th>Pistas</th><th>Error principal</th></tr>
+                <tr><th>Alumno</th><th>Va en</th><th>Dominadas</th><th>Aciertos</th><th>Pistas</th><th>Evaluación final</th><th>Error principal</th></tr>
               </thead>
               <tbody>
                 {r.students.map((s) => (
@@ -182,6 +182,7 @@ function Report({ report, onRefresh, busy }) {
                     <td>{s.mastered}/{r.skills.length}</td>
                     <td>{s.accuracy == null ? "—" : `${Math.round(s.accuracy * 100)}%`}</td>
                     <td>{s.hints_used}</td>
+                    <td>{s.exam ? `${s.exam.passed ? "Aprobada" : "Pendiente"} · ${s.exam.score}/${s.exam.total}${s.exam.taken > 1 ? ` (${s.exam.taken} intentos)` : ""}` : "—"}</td>
                     <td className="small">{s.errors[0] ?? "—"}</td>
                   </tr>
                 ))}

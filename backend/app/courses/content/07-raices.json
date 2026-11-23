@@ -13,7 +13,7 @@
     "MAT-MULT",
     "MAT-DIV"
   ],
-  "evaluacion": "Calcular cuadrados y raíces sin ayuda, explicar la relación entre ambos (pregunta de comprobación) y resolver un problema de áreas (reto final).",
+  "evaluacion": "Evaluación final de 5 preguntas, sin pistas ni ayuda: un ejercicio de cada habilidad, un problema en contexto y una pregunta de «por qué». Se aprueba con 4 de 5; si no, se refuerza lo que faltó y se vuelve a presentar. Antes, cada habilidad se domina en la práctica.",
   "metadatos": {
     "fuente_curricular": "Programa Sintético de la Fase 6 del Plan de Estudio 2022 de la SEP (campo Saberes y Pensamiento Científico). 2º grado: «Calcula potencias con exponente entero y la raíz cuadrada». La estimación de raíces no exactas no aparece de forma explícita: es un apoyo propuesto por el equipo.",
     "referencias": [
@@ -36,9 +36,29 @@
       "explicacion": {
         "titulo": "Elevar al cuadrado",
         "ideas": [
-          "5² se lee «cinco al cuadrado» y significa 5 × 5.",
-          "Se llama cuadrado porque es el área de un cuadrado de 5 por lado: 25 cuadritos.",
-          "Ojo: 5² no es 5 × 2. El 2 pequeño dice cuántas veces aparece el 5 en la multiplicación."
+          {
+            "etapa": "concreto",
+            "texto": "Acomoda fichas en 5 filas de 5. Cuéntalas: por eso 5² se lee «cinco al cuadrado» y significa 5 × 5.",
+            "visual": {
+              "kind": "arreglo",
+              "filas": 5,
+              "columnas": 5,
+              "caption": "5 filas de 5 = 25 fichas"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Un cuadrado de 5 por lado tiene 25 cuadritos. Por eso se llama «cuadrado».",
+            "visual": {
+              "kind": "cuadricula",
+              "lado": 5,
+              "caption": "Un cuadrado de 5 por lado: 25 cuadritos"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "5² = 5 × 5 = 25. Ojo: 5² no es 5 × 2; el 2 pequeño dice cuántas veces aparece el 5 en la multiplicación."
+          }
         ],
         "por_que": "Los cuadrados son la base para entender las raíces cuadradas."
       },
@@ -80,6 +100,22 @@
           "texto": "Ahora calcula {n} × {n}. Si te ayuda, cuenta de {n} en {n}, {n} veces."
         }
       ],
+      "visual_pista": {
+        "kind": "modelo",
+        "filas": [
+          {
+            "segmentos": [
+              {
+                "n": "{n}",
+                "texto": "{n}",
+                "repetir": "{n}"
+              }
+            ],
+            "llave": "?"
+          }
+        ],
+        "caption": "{n}² son {n} grupos iguales de {n}."
+      },
       "resolucion": "{n}² = {n} × {n} = {res}.",
       "errores": {
         "por_dos": {
@@ -107,9 +143,29 @@
       "explicacion": {
         "titulo": "La raíz cuadrada",
         "ideas": [
-          "La raíz cuadrada es la pregunta al revés: ¿qué número por sí mismo da 25?",
-          "Como 5 × 5 = 25, la raíz cuadrada de 25 es 5. Se escribe √25 = 5.",
-          "En dibujo: si un cuadrado tiene 25 cuadritos, la raíz es lo que mide cada lado."
+          {
+            "etapa": "concreto",
+            "texto": "Tienes 25 mosaicos y quieres formar un cuadrado sin que sobre ninguno. ¿Cuántos van en cada lado?",
+            "visual": {
+              "kind": "arreglo",
+              "filas": 5,
+              "columnas": 5,
+              "caption": "25 mosaicos: 5 filas de 5"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Prueba lados. Con 4 por lado usas 16 mosaicos y te faltan; con 6 usarías 36 y no alcanzan. Con 5, exactamente 25.",
+            "visual": {
+              "kind": "cuadricula",
+              "lado": 4,
+              "caption": "4 × 4 = 16: todavía faltan"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "√25 = 5, porque 5 × 5 = 25. La raíz cuadrada es la pregunta al revés del cuadrado."
+          }
         ],
         "por_que": "Sirve, por ejemplo, para saber cuánto mide el lado de un terreno cuadrado si conoces su área."
       },
@@ -164,6 +220,11 @@
           "texto": "Como {p} no funciona, prueba con números {dir} que {p} hasta que el resultado sea exactamente {s}."
         }
       ],
+      "visual_pista": {
+        "kind": "cuadricula",
+        "lado": "{p}",
+        "caption": "Un cuadrado de {p} por lado tiene {p2} cuadritos. ¿Te faltan o te sobran para llegar a {s}?"
+      },
       "resolucion": "Buscamos un número que por sí mismo dé {s}: {res} × {res} = {s}. Entonces √{s} = {res}.",
       "errores": {
         "mitad": {
@@ -186,9 +247,57 @@
       "explicacion": {
         "titulo": "Raíces que no son exactas",
         "ideas": [
-          "√40 no es exacta: ningún entero por sí mismo da 40.",
-          "Pero 6 × 6 = 36 y 7 × 7 = 49, y 40 está entre 36 y 49.",
-          "Así que √40 está entre 6 y 7."
+          {
+            "etapa": "concreto",
+            "texto": "Con 40 mosaicos intenta armar un cuadrado. Con 6 por lado usas 36 y sobran 4; para 7 por lado necesitarías 49 y no alcanzan.",
+            "visual": {
+              "kind": "cuadricula",
+              "lado": 6,
+              "caption": "6 × 6 = 36: de 40 sobran 4"
+            }
+          },
+          {
+            "etapa": "pictorico",
+            "texto": "Compara las barras. 40 es más largo que 36 y más corto que 49.",
+            "visual": {
+              "kind": "modelo",
+              "filas": [
+                {
+                  "etiqueta": "6 × 6",
+                  "segmentos": [
+                    {
+                      "n": 36,
+                      "texto": "36"
+                    }
+                  ]
+                },
+                {
+                  "etiqueta": "√40 · 40",
+                  "segmentos": [
+                    {
+                      "n": 40,
+                      "texto": "40",
+                      "tono": "b"
+                    }
+                  ]
+                },
+                {
+                  "etiqueta": "7 × 7",
+                  "segmentos": [
+                    {
+                      "n": 49,
+                      "texto": "49"
+                    }
+                  ]
+                }
+              ],
+              "caption": "40 está entre 36 y 49"
+            }
+          },
+          {
+            "etapa": "abstracto",
+            "texto": "6² = 36 < 40 < 49 = 7². Así que √40 está entre 6 y 7. Estimar te dice si un resultado de calculadora tiene sentido."
+          }
         ],
         "por_que": "Estimar te dice si un resultado de calculadora tiene sentido."
       },
@@ -247,6 +356,7 @@
     }
   ],
   "reto_final": {
+    "uso": "Problemas en contexto de la evaluación final.",
     "habilidad": "raiz.exacta",
     "historias": [
       "Un jardín cuadrado tiene un área de {s} metros cuadrados. ¿Cuánto mide cada lado?",
@@ -308,6 +418,36 @@
         "titulo": "Marecek, L., Anthony-Smith, M. y Honeycutt Mathis, A. (2020). Prealgebra 2e. OpenStax, sección sobre raíces cuadradas (square roots).",
         "url": "https://openstax.org/details/books/prealgebra-2e",
         "uso": "Lectura complementaria para la docente (en inglés). Licencia CC BY-NC-SA 4.0 y OpenStax prohíbe usar el libro en productos de IA generativa: por eso no copiamos su texto ni se lo damos a la IA."
+      }
+    ]
+  },
+  "evaluacion_final": {
+    "preguntas": [
+      {
+        "pregunta": "¿Por qué 6² no es 12?",
+        "opciones": {
+          "cuadrado": "Porque 6² es 6 × 6 (un cuadrado de 6 por lado), no 6 × 2",
+          "si": "Sí es 12: es 6 por 2",
+          "suma": "Porque es 6 + 2 = 8"
+        },
+        "correcta": "cuadrado",
+        "retro": {
+          "si": "El 2 pequeño dice cuántas veces aparece el 6 en la multiplicación: 6 × 6. 6 × 2 sería un rectángulo de 6 por 2.",
+          "suma": "Tampoco: 6² no suma nada. Es el área de un cuadrado de 6 por lado."
+        }
+      },
+      {
+        "pregunta": "Un terreno cuadrado tiene 49 m² de área. ¿Por qué cada lado mide 7 m?",
+        "opciones": {
+          "lado": "Porque 7 × 7 = 49: la raíz cuadrada del área es lo que mide el lado",
+          "siete": "Porque 49 ÷ 7 = 7 y siempre se divide entre 7",
+          "cuatro": "Porque un cuadrado tiene 4 lados, así que es 49 ÷ 4"
+        },
+        "correcta": "lado",
+        "retro": {
+          "siete": "Se divide entre 7 solo porque 7 × 7 = 49. Si el área fuera 64 m², el lado sería 8, porque 8 × 8 = 64.",
+          "cuatro": "Dividir entre 4 sirve para el perímetro, no para el área. El área es lado × lado: buscas un número que por sí mismo dé 49."
+        }
       }
     ]
   }

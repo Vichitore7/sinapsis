@@ -9,7 +9,7 @@ import string
 from math import isqrt
 
 import pytest
-from conftest import correct_answer, pass_check, register, start
+from conftest import correct_answer, exam_answer, pass_check, register, start
 
 from app.courses import all_courses
 from app.courses.generic import TIPOS, GenericCourse, parse
@@ -169,7 +169,7 @@ def test_misconceptions_are_detected(skill, vars_, raw, misc):
 
 
 def test_whole_generic_course_via_api(client):
-    """Un curso nuevo completo de punta a punta: diagnóstico → práctica → reto → constancia."""
+    """Un curso nuevo completo de punta a punta: diagnóstico → práctica → evaluación final → constancia."""
     register(client, "Regina")
     v = start(client, "MAT-SUMA")
     s = v["session_id"]
@@ -181,9 +181,15 @@ def test_whole_generic_course_via_api(client):
     v = pass_check(client, s)
     for _ in range(2):
         v = client.post(f"/api/sessions/{s}/answer", json={"answer": correct_answer(v)}).json()
-    assert v["phase"] == "transferencia"
-    assert any(w in v["exercise"]["prompt"] for w in ("libros", "tapitas", "cajas"))
-    v = client.post(f"/api/sessions/{s}/answer", json={"answer": correct_answer(v)}).json()
+    assert v["phase"] == "evaluacion" and v["exam"]["total"] == 5
+    certs = {c["course_id"]: c for c in client.get("/api/me/certificates").json()}
+    assert not certs["MAT-SUMA"]["earned"]   # dominar las habilidades no basta: falta la evaluación
+    prompts = []
+    while v["phase"] == "evaluacion":
+        if v["exercise"]:
+            prompts.append(v["exercise"]["prompt"])
+        v = exam_answer(client, s, v)
+    assert any(w in p for p in prompts for w in ("libros", "tapitas", "cajas"))  # problema en contexto
     assert v["phase"] == "cierre" and v["progress"]["completed"]
     assert "Restas" in v["messages"][-1]["text"]
     certs = {c["course_id"]: c for c in client.get("/api/me/certificates").json()}

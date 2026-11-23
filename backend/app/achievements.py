@@ -4,8 +4,9 @@ Logros: premian CÓMO se piensa, no cuánto se hace. Nada de «resuelve 10
 ejercicios»: se reconoce corregir un error propio, estimar antes de calcular,
 resolver paso a paso, pedir ayuda a tiempo, descansar y regresar.
 
-Constancias: una por curso, cuando se dominan todas sus habilidades. Son
-internas y simbólicas: NO tienen valor curricular ni validez oficial.
+Constancias: una por curso, cuando se dominan todas sus habilidades y se aprueba
+la evaluación final. Son internas y simbólicas: NO tienen valor curricular ni
+validez oficial.
 """
 from __future__ import annotations
 
@@ -26,7 +27,7 @@ ACHIEVEMENTS = [
     {"id": "pregunta", "icon": "💬", "title": "Preguntar también es pensar",
      "desc": "Usaste la ayuda extra cuando te atoraste y después resolviste por tu cuenta."},
     {"id": "por_tu_cuenta", "icon": "🧭", "title": "Por tu cuenta",
-     "desc": "Resolviste un reto final (un problema nuevo) sin ninguna pista."},
+     "desc": "Aprobaste una evaluación final, sin pistas ni ayuda."},
     {"id": "memoria", "icon": "🧠", "title": "Memoria de largo plazo",
      "desc": "Regresaste después de un tiempo y demostraste en el repaso que lo recuerdas."},
     {"id": "descanso", "icon": "☕", "title": "Pausa sabia",
@@ -49,16 +50,18 @@ def certificates_for(student: dict) -> list[dict]:
     for c in all_courses():
         rows = [mastery.get(s, {}) for s in c.skills]
         done = sum(1 for m in rows if m.get("mastered"))
-        earned = done == len(c.skills)
-        dates = [m.get("mastered_at") or m.get("last_practiced") for m in rows if m.get("mastered")]
+        exam = db.exam_status(student["id"], c.id)
+        earned = done == len(c.skills) and exam["passed"]
         out.append({
             "course_id": c.id,
             "title": c.title,
             "level": c.level,
             "cover": c.cover,
             "earned": earned,
-            "earned_at": max(d for d in dates if d) if earned and any(dates) else None,
-            "pct": round(100 * done / len(c.skills)),
+            "earned_at": exam["passed_at"] if earned else None,
+            "pct": round(100 * (done + int(exam["passed"])) / (len(c.skills) + 1)),
+            "exam": {"passed": exam["passed"], "score": exam["score"], "total": exam["total"],
+                     "taken": exam["taken"]},
             "skills": [c.skill_names[s] for s in c.skills],
             "student_name": student["name"],
             "note": CERTIFICATE_NOTE,

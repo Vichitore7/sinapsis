@@ -1,6 +1,6 @@
 // Dibujos para la teoría y las lecciones (SVG ligero, sin imágenes externas).
 // Fracciones -> FractionVisual. Lo demás: bloques de base 10, columnas, arreglos,
-// reparto, cuadrícula y balanza.
+// reparto, cuadrícula, balanza y el modelo de barras del método Singapur.
 import FractionVisual from "./FractionVisual.jsx";
 
 const INK = "var(--text)";
@@ -130,6 +130,41 @@ function Scale({ izquierda, derecha }) {
   );
 }
 
+// Modelo de barras (método Singapur): cada fila es una barra partida en segmentos
+// proporcionales; los huecos (línea punteada) son lo que no se conoce, y la llave de
+// abajo dice cuánto vale la barra completa. El servidor manda solo proporciones
+// aproximadas (`peso`), nunca los tamaños exactos.
+function BarModel({ filas }) {
+  const describe = (f) =>
+    `${f.etiqueta ? `${f.etiqueta}: ` : ""}${f.segmentos.map((s) => s.texto || "?").join(" + ")}` +
+    (f.llave ? ` = ${f.llave}` : "");
+  return (
+    <div className="bmodel" role="img" aria-label={`Modelo de barras. ${filas.map(describe).join(". ")}`}>
+      {filas.map((f, i) => (
+        <div key={i} className="bm-row">
+          {filas.some((x) => x.etiqueta) && <span className="bm-label">{f.etiqueta}</span>}
+          <div className="bm-track">
+            <div className="bm-bar" style={{ width: `${f.ancho}%` }}>
+              <div className="bm-segs">
+                {f.segmentos.map((s, j) => (
+                  <span key={j} className={`bm-seg tone-${s.tono || "a"} ${s.hueco ? "hole" : ""}`}
+                        style={{ flexGrow: s.peso }}>{s.texto}</span>
+                ))}
+              </div>
+              {f.llave && (
+                <div className="bm-brace" aria-hidden="true">
+                  <span className="bm-brace-line" />
+                  <span className="bm-brace-label">{f.llave}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function MathVisual({ visual }) {
   if (!visual) return null;
   const body = {
@@ -139,6 +174,7 @@ export default function MathVisual({ visual }) {
     reparto: () => <Share {...visual} />,
     cuadricula: () => <Grid {...visual} />,
     balanza: () => <Scale {...visual} />,
+    modelo: () => <BarModel {...visual} />,
   }[visual.kind];
   if (!body) return <FractionVisual visual={visual} />;
   return (

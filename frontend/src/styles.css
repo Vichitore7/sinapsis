@@ -7,6 +7,7 @@
   --orange-soft: #fed7aa;
   --orange-bg: #fff7ed;
   --teal: #0d9488;
+  --teal-soft: #ccfbf1;
   --text: #1f2937;
   --muted: #6b7280;
   --bg: #fffaf5;
@@ -37,6 +38,7 @@
     --border: #44403c;
     --orange-bg: #3a2614;
     --orange-soft: #7c2d12;
+    --teal-soft: #134e4a;
     --bar-empty: #1c1917;
     --bar-stroke: #9a3412;
     --ok-bg: #14301d;
@@ -337,6 +339,46 @@ table.cols tr.resultado td { border-top: 3px solid var(--text); color: var(--ok)
 .fvisual.stacked .fbar { flex: none; min-width: 0; max-width: 360px; }
 .fbar svg + svg { margin-top: 4px; }
 .fcaption { margin: 2px 0 0; font-weight: 700; font-size: 0.95rem; }
+
+/* ---------- Modelo de barras (método Singapur) ---------- */
+.bmodel { display: grid; gap: 10px; width: min(100%, 440px); }
+.bm-row { display: flex; align-items: flex-start; gap: 8px; }
+.bm-label { flex: 0 0 4.6em; font-size: 0.8rem; font-weight: 800; text-align: right; padding-top: 8px; }
+.bm-track { flex: 1; min-width: 0; }
+.bm-segs { display: flex; height: 34px; }
+.bm-seg { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center;
+          border: 2px solid var(--orange); background: var(--orange-soft); color: var(--text);
+          font-weight: 800; font-size: 0.85rem; overflow: hidden; white-space: nowrap; border-radius: 4px;
+          margin-right: 2px; }
+.bm-seg:last-child { margin-right: 0; }
+.bm-seg.tone-b { border-color: var(--teal); background: var(--teal-soft); }
+.bm-seg.tone-warn { border-color: var(--warn); background: var(--warn-bg); }
+.bm-seg.hole { background: transparent; border-style: dashed; }
+.bm-brace { display: flex; flex-direction: column; align-items: center; margin-top: 3px; }
+.bm-brace-line { align-self: stretch; height: 9px; border: 2px solid var(--muted); border-top: 0;
+                 border-radius: 0 0 8px 8px; }
+.bm-brace-label { font-weight: 800; font-size: 0.95rem; margin-top: 1px; }
+
+/* ---------- Explicación en etapas (Concreto → Pictórico → Abstracto) ---------- */
+.cpa-stage { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 0; padding: 3px 10px;
+             border-radius: var(--radius-pill); background: var(--orange-bg); border: 1px solid var(--border);
+             font-size: 0.8rem; font-weight: 800; color: var(--orange-dark); }
+.cpa-stage .cpa-n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+                    background: var(--orange); color: #fff; font-size: 0.7rem; }
+
+/* ---------- Evaluación final ---------- */
+.exam-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 10px 14px;
+            border: 2px solid var(--orange); border-radius: var(--radius-round); background: var(--orange-bg);
+            margin-top: 6px; }
+.exam-bar strong { font-size: 1rem; }
+.exam-result { margin-top: 6px; display: grid; gap: 6px; }
+.exam-result .exam-score { font-size: 1.4rem; font-weight: 800; margin: 0; }
+.exam-result ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.exam-result li .exam-q { font-weight: 700; }
+.exam-result li.ok::marker { color: var(--ok); }
+.exam-result li.bad::marker { color: var(--danger); }
+.bubble.exam_result { border: 2px solid var(--orange); }
+.outline-steps li.exam:not(.done) .node { background: var(--orange-bg); }
 .bubble .fvisual { margin-bottom: 0; }
 
 /* Mascota «Loop» */
@@ -423,7 +465,7 @@ th { font-size: 0.8rem; text-transform: uppercase; color: var(--muted); }
 .footer .link { padding: 0; }
 
 @media (prefers-color-scheme: dark) {
-  .eyebrow, .link, .pct-big, .status.doing, .tab.on { color: var(--orange); }
+  .eyebrow, .link, .pct-big, .status.doing, .tab.on, .cpa-stage { color: var(--orange); }
   .link.light { color: #fff; }
 }
 
